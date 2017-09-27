@@ -8,7 +8,7 @@ process, as well as a prediction for the whole process.
 
 ## Citation
 If you find it useful, please cite:
-Julia Varga and Gábor E. Tusnády
+Julia Varga and Gábor E. Tusnády  
 TMCrys:...
 
 ## Getting Started
@@ -20,18 +20,18 @@ These instructions will get you a copy of the project up and running on your loc
 
 R packages
 	```
-	install.packages(xgboost)
-	install.packages(caret)
-	install.packages(docopt)
-	install.packages(protr)
+	install.packages(xgboost)  
+	install.packages(caret)  
+	install.packages(docopt)  
+	install.packages(protr)  
 	```
 
 
 Perl Modules
 	```
-	cpan install XML::LibXML
-	cpan install Bio::Tools::Protparam
-	cpan install Getopt::Std
+	cpan install XML::LibXML  
+	cpan install Bio::Tools::Protparam  
+	cpan install Getopt::Std  
 	```
 
 and a modified version of the OB module (used for OB score calculation) that can be downloaded together with TMCrys.
@@ -47,7 +47,7 @@ and a modified version of the OB module (used for OB score calculation) that can
 
 
 ## Authors
-Julia Varga
+Julia Varga  
 Gábor E. Tusnády
 
 ## License
