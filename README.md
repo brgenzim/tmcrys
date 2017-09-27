@@ -20,24 +20,26 @@ These instructions will get you a copy of the project up and running on your loc
 
 R packages
 	```
-	install.packages(xgboost)  
 	
-	install.packages(caret)  
+	install.packages(xgboost)
 	
-	install.packages(docopt)  
+	install.packages(caret)
 	
-	install.packages(protr)  
+	install.packages(docopt)
+	
+	install.packages(protr)
 	
 	```
 
 
 Perl Modules
 	```
-	cpan install XML::LibXML  
 	
-	cpan install Bio::Tools::Protparam  
+	cpan install XML::LibXML
 	
-	cpan install Getopt::Std  
+	cpan install Bio::Tools::Protparam
+	
+	cpan install Getopt::Std
 	
 	```
 
