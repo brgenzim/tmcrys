@@ -1,5 +1,5 @@
 
-# TMCrys: ...
+# TMCrys
 
 TMCrys was developed to help the target selection of structural genomics projects by providing prediction
 for the propensity of the solubilization, purification and crystallization steps of the crystallization 
