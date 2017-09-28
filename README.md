@@ -6,7 +6,7 @@ for the propensity of the solubilization, purification and crystallization steps
 process, as well as a prediction for the whole process.
 
 ## Citation
-If you find TMCrys useful, please cite:
+If you find TMCrys useful, please cite:  
 Julia Varga and Gábor E. Tusnády  
 TMCrys:...
 
