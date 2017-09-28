@@ -18,7 +18,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-R packages
+R packages - from R shell
 
 	```	
 	install.packages(xgboost)
@@ -28,7 +28,7 @@ R packages
 	```
 
 
-Perl Modules
+Perl Modules - you may need to add `sudo` before the commands
 
 	```	
 	cpan install XML::LibXML	
