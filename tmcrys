@@ -118,20 +118,20 @@ if [[ $TEST ]]; then
 	
 	echo "Creating features..."
 	echo "CCTOPDIR"
-	Rscript sequenceFeatures.pl -d "$WDDIR/cctop" -n "$NETFILE/testdir.rsa" -f > "$WDDIR/testdir.features"
+	$TMCRYS/tools/sequenceFeatures.pl -d "$WDDIR/cctop" -n "$NETFILE/testdir.rsa" -f > "$WDDIR/testdir.features"
 	
 	
 	echo -e  "\nSpace delimited file"
-	Rscript sequenceFeatures.pl -s "$WDDIR/test.txt" -n "$NETFILE/testtxt.rsa" -f > "$WDDIR/testtxt.features"
+	$TMCRYS/tools/sequenceFeatures.pl -s "$WDDIR/test.txt" -n "$NETFILE/testtxt.rsa" -f > "$WDDIR/testtxt.features"
 
 	echo -e "\nCCTOP XML file"
-	Rscript sequenceFeatures.pl -i "$WDDIR/O14983.xml" -n "$NETFILE/testxml.rsa" -f > "$WDDIR/testxml.features"
+	$TMCRYS/tools/sequenceFeatures.pl -i "$WDDIR/O14983.xml" -n "$NETFILE/testxml.rsa" -f > "$WDDIR/testxml.features"
 	echo "P45880 is not transmembrane protein, should be left out twice."
 	
 	echo -e "\nPredicting..."
-	Rscript prediction.R -i $WDDIR/testdir.features -o $WDDIR/testdir.prediction --verbose
-	Rscript prediction.R -i $WDDIR/testtxt.features -o $WDDIR/testtxt.prediction --verbose
-	Rscript prediction.R -i $WDDIR/testxml.features -o $WDDIR/testxml.prediction --verbose
+	Rscript $TMCRYS/tools/prediction.R -i $WDDIR/testdir.features -o $WDDIR/testdir.prediction --verbose
+	Rscript $TMCRYS/tools/prediction.R -i $WDDIR/testtxt.features -o $WDDIR/testtxt.prediction --verbose
+	Rscript $TMCRYS/tools/prediction.R -i $WDDIR/testxml.features -o $WDDIR/testxml.prediction --verbose
 	echo "Prediction done."
 	 
 	echo -e "\nComparing results..."
@@ -179,7 +179,7 @@ if [[ "$CCTOPDIR" != "" ]]; then
 	if [[! -d "$CCTOPDIR" ]]; then
 		echo "Please specify valid path to directory containing CCTOP XMLs!"
 	else	
-		Rscript sequenceFeatures.pl -d "$CCTOPDIR" -n "$NETFILE" > $WDDIR/$name.features
+		$TMCRYS/tools/sequenceFeatures.pl -d "$CCTOPDIR" -n "$NETFILE" > $WDDIR/$name.features
 	fi
 fi
 
@@ -188,7 +188,7 @@ if [[ "$TABFILE" != ""]]; then
 		echo "Please specify valid path to space delimited file: 'id sequence topology'!"
 	else
 		name=$(basename $CCTOPFILE ".txt")
-		Rscript sequenceFeatures.pl -s "$TABFILE" -n "$NETFILE" > $WDDIR/$name.features
+		$TMCRYS/tools/sequenceFeatures.pl -s "$TABFILE" -n "$NETFILE" > $WDDIR/$name.features
 	fi
 fi
 
@@ -197,11 +197,11 @@ if [[ "$CCTOPFILE" != "" ]]; then
 		echo "Please specify valid path to a CCTOP XML!"
 	else
 		name=$(basename $CCTOPFILE ".xml")
-		Rscript sequenceFeatures.pl -i "$CCTOPFILE" -n "$NETFILE" > $WDDIR/$name.features
+		$TMCRYS/tools/sequenceFeatures.pl -i "$CCTOPFILE" -n "$NETFILE" > $WDDIR/$name.features
 	fi
 fi
 
-Rscript prediction.R -i $WDDIR/$name.features -o $WDDIR/$name.prediction --verbose
+Rscript $TMCRYS/tools/prediction.R.R -i $WDDIR/$name.features -o $WDDIR/$name.prediction --verbose
 
 
 
