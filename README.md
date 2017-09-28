@@ -21,19 +21,19 @@ TMCrys was developed with R v3.4.1 and Perl v5.18.2. Lower versions may not work
 R packages - from R shell
 
 ```	
-	install.packages("xgboost", repos='http://cran.rstudio.com/')
-	install.packages("caret", repos='http://cran.rstudio.com/')	
-	install.packages("docopt", repos='http://cran.rstudio.com/')	
-	install.packages("protr", repos='http://cran.rstudio.com/')
+install.packages("xgboost", repos='http://cran.rstudio.com/')
+install.packages("caret", repos='http://cran.rstudio.com/')	
+install.packages("docopt", repos='http://cran.rstudio.com/')	
+install.packages("protr", repos='http://cran.rstudio.com/')
 ```
 
 
 Perl Modules - you may need to add `sudo` before the commands.
 
 ```
-	cpan install XML::LibXML
-	cpan install Bio::Tools::Protparam
-	cpan install Getopt::Std
+cpan install XML::LibXML
+cpan install Bio::Tools::Protparam
+cpan install Getopt::Std
 ```
 
 You will also need a modified version of the OB module (used for OB-score calculation), it is downloaded together with TMCrys to tools directory. Please do not remove it or data (data/zmat.dat) belonging to it.
@@ -48,16 +48,16 @@ If downloaded as a compressed file, please uncompress it to a folder.
 
 Add $TMCRYS to the environmental variables with
 
-`	export TMCRYS=/path/to/tmcrys/folder `
-Or you may copy it to ~/.bashrc or ~/.profile or ~/.bash_profile according to your system settings.
+`export TMCRYS=/path/to/tmcrys/folder  `  
+Alternatively, you may copy it to ~/.bashrc or ~/.profile or ~/.bash_profile according to your system settings.
 If you want to make it permanent, write `TMCRYS=/path/to/tmcrys/folder` to /etc/environment.
 
 
 ### Test
 Please run
 ```
-	cd $TMCRYS
-	./tmcrys --test
+cd $TMCRYS
+./tmcrys --test
 ```
 
 ### Usage
