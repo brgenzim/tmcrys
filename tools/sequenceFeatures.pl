@@ -32,7 +32,7 @@ use warnings;
 
 my $mydir =~ $ENV{'TMCRYS'};
 
-use lib '.';
+use lib "$mydir/tools/;
 if ( !-f "$mydir/tools/OB.pm" || !-f "$mydir/data/zmat.dat" || !-f "$mydir/data/Hydrophobicity_scores.dat"){
 	die "Please put modified OB.pm, zmat.dat and Hydrophobicity_scores.dat to the working directory\n";
 }
