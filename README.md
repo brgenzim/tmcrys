@@ -105,7 +105,7 @@ This project is licensed under the GNU License - see the LICENSE.md file for det
 4. Overton,I.M. and Barton,G.J. (2006) A normalised scale for structural genomics target ranking: The OB-Score. FEBS Lett., 580, 4005–4009.
 5. Petersen,B., Petersen,T.N., Andersen,P., Nielsen,M. and Lundegaard,C. (2009) A generic method for assignment of reliability scores applied to solvent accessibility predictions. BMC Struct. Biol., 9, 51.
 6. Chen,T., He,T., Benesty,M., Khotilovich,V. and Tang,Y. (2017) xgboost: Extreme Gradient Boosting.
-7. from Jed Wing,M.K.C., Weston,S., Williams,A., Keefer,C., Engelhardt,A., Cooper,T., Mayer,Z., Kenkel,B., the R Core Team, Benesty,M., et al. (2017) caret: Classification and Regression Training.
+7. Kuhn,M. et al. (2017) caret: Classification and Regression Training.
 8. Kawashima,S., Ogata,H. and Kanehisa,M. (1999) AAindex: Amino Acid Index Database. Nucleic Acids Res., 27, 368–369.
 9. Yan,Y. (2016) rBayesianOptimization: Bayesian Optimization of Hyperparameters.
 
