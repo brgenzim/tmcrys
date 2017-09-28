@@ -36,7 +36,7 @@ Perl Modules - you may need to add `sudo` before the commands
 	cpan install Getopt::Std	
 	```
 
-and a modified version of the OB module (used for OB score calculation) that can be downloaded together with TMCrys.
+and a modified version of the OB module (used for OB score calculation) that can be downloaded together with TMCrys. It requires the installation of BioPerl (http://bioperl.org/INSTALL.html) for running properly.
 
 
 
