@@ -15,7 +15,7 @@ TMCrys:...
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
 ### Prerequisites
-Packages and modules, copy and paste code below to install. 
+Packages and modules, please copy and paste code below to install.  
 TMCrys was developed with R v3.4.1 and Perl v5.18.2. Lower versions may not work properly.
 
 R packages - from R shell
@@ -36,21 +36,21 @@ Perl Modules - you may need to add `sudo` before the commands.
 	cpan install Getopt::Std	
 	```
 
-You will also need a modified version of the OB module (used for OB-score calculation), it is downloaded together with TMCrys to tools directory. Please do not remove it or data (data/zmat.dat) belonging to it
+You will also need a modified version of the OB module (used for OB-score calculation), it is downloaded together with TMCrys to tools directory. Please do not remove it or data (data/zmat.dat) belonging to it.
 
 TMCrys requires an installed copy of BioPerl (http://bioperl.org/INSTALL.html) for running properly. BioPerl could also be installed during the installation of Bio::Tools::Protparam when installer ask about whether to install all modules. 
 
 
 ### Installing
 
-Download or clone git folder from https://github.com/tmcrys/tmcrys/  
+Download or clone git folder from https://github.com/tmcrys/tmcrys/.
 If downloaded as a compressed file, please uncompress it to a folder.
 
 Add $TMCRYS to the environmental variables with
 
 	`export TMCRYS=/path/to/tmcrys/folder`
 Or you may copy it to ~/.bashrc or ~/.profile or ~/.bash_profile according to your system settings.
-If you want to make it permanent, write `TMCRYS=/path/to/tmcrys/folder to /etc/environment`
+If you want to make it permanent, write `TMCRYS=/path/to/tmcrys/folder to /etc/environment`.
 
 
 ### Test
@@ -79,7 +79,7 @@ cd $TMCRYS
 ./tmcrys (-i <CCTOPFILE> | -d <CCTOPDIR> | -s <DELIMITEDFILE>) -n <NETSURFPFILE> --wd <DIR>
 ```
 
-Help for every script is available by typing `-h` or `--help` when running command.
+Help for every script is available by typing `-h` or `--help` or no arguments when running commands.
 
 ## Authors
 Julia Varga  
