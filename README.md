@@ -21,10 +21,10 @@ These instructions will get you a copy of the project up and running on your loc
 R packages - from R shell
 
 	```	
-	install.packages("xgboost")
-	install.packages("caret")	
-	install.packages("docopt")	
-	install.packages("protr")
+	install.packages("xgboost", dependencies=TRUE, repos='http://cran.rstudio.com/')
+	install.packages("caret", dependencies=TRUE, repos='http://cran.rstudio.com/')	
+	install.packages("docopt", dependencies=TRUE, repos='http://cran.rstudio.com/')	
+	install.packages("protr", dependencies=TRUE, repos='http://cran.rstudio.com/')
 	```
 
 
