@@ -1,35 +1,30 @@
 #!/usr/bin/env bash
 
-####################
-#
-#    TMCrys version 0.1
-#    Copyright 2017 Julia Varga and Gábor E. Tusnády
-#
-#    If you use TMCrys, please cite: 
-#    Julia Varga and Gábor E. Tusnády TMCRys...
-#
-#    If you encounter with problems while using TMCrys, please contact:
-#    ...@ttk.mta.hu	
-#
-#
-#
-#
-#    This file is part of TMCrys.
-#
-#    TMCrys is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    TMCrys is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with TMCrys.  If not, see <http://www.gnu.org/licenses/>.
-#
-####################
+################################################################################
+#										#
+#    TMCrys version 0.1								#
+#    Copyright 2017 Julia Varga and Gábor E. Tusnády				#
+#										#
+#    If you use TMCrys, please cite: 						#
+#    Julia Varga and Gábor E. Tusnády TMCRys...					#
+#										#
+#										#
+#    This file is part of TMCrys.						#
+#										#
+#    TMCrys is free software: you can redistribute it and/or modify		#
+#    it under the terms of the GNU General Public License as published by	#
+#    the Free Software Foundation, either version 3 of the License, or		#
+#    (at your option) any later version.					#
+#										#
+#    TMCrys is distributed in the hope that it will be useful,			#
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of		#
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the		#
+#    GNU General Public License for more details.				#
+#										#
+#    You should have received a copy of the GNU General Public License		#
+#    along with TMCrys.  If not, see <http://www.gnu.org/licenses/>.		#
+#										#
+#################################################################################
 
 HELP="
 TMCrys version 0.1\n
@@ -41,7 +36,9 @@ Usage: tmcrys (-s <TABFILE> | -d <CCTOPDIR> | -i <CCTOPFILE>) --wd <WDDIR> -n <N
 	-s 		file with 'id seq top'\n
 	Either -s or -i or -d required.\n
 \n
-	-n 		-n netsurf results file (.rsa)\n
+	
+	--wd		working directory
+	-n 		NetSurfP results file (.rsa)\n
 	--name		required for CCTOP directories - name for output files without extensions\n
 	-h|--help 	print this help and exit\n
 	--version 	print version and exit\n
@@ -162,7 +159,7 @@ fi
 
 
 if [[ ! -d "$NETFILE" ]]; then
-	echo "Please specify valid path to netsurfp directory!"
+	echo "Please specify valid path to NetSurfP directory!"
 	exit
 fi
 
