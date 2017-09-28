@@ -30,7 +30,7 @@ use warnings;
 
 
 
-my $mydir =~ $ENV{'TMCRYS'};
+my $mydir = $ENV{'TMCRYS'};
 
 use lib "$mydir/tools/";
 if ( !-f "$mydir/tools/OB.pm" || !-f "$mydir/data/zmat.dat" || !-f "$mydir/data/Hydrophobicity_scores.dat"){
