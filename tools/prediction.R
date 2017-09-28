@@ -30,6 +30,7 @@ options(verbose = F, warn = -1, width = 200, show.error.locations=TRUE)
 library(caret, verbose = F, quietly = T, warn.conflicts = F)
 library(xgboost, verbose = F, quietly = T, warn.conflicts = F)
 library(docopt, quietly = T, warn.conflicts = F, verbose = F)
+
 'Usage:
    prediction.R (-i FILE) [-o FILE] [--verbose] [--Rdata RFILE] [--version]
 
@@ -55,16 +56,15 @@ if (opts$Rdata == TRUE ){
 		quit(save="no", status = 1 )
 	}
 } else{
-	if (file.exists("tmcrys.Rdata")) {
-		load("tmcrys.Rdata")
+	if (file.exists(paste0(Sys.getenv('TMCRYS'), "/data/tmcrys.Rdata"))) {
+		load(paste0(Sys.getenv('TMCRYS'), "/data/tmcrys.Rdata"))
 	}
 	else{
 		cat(paste("Could not find ", "tmcrys.Rdata", " please specifiy path with --Rdata RFILE option\n", sep = ""))
 		quit(save="no", status = 1 )
 	}
 }
-# opts <- list()
-# opts$i <- "/bigdisk/users/jvarga/crys/tools/vegso/test/testxml.features"
+
 if (file.exists(opts$i)){
 	data <- read.table(opts$i, header = T, row.names = 1, sep = "\t")
 } else {
@@ -108,8 +108,6 @@ for (i in 2:ncol(data1)){
 		if(is.na(lowerBound) || is.na(upperBound) ){
 			next
 		}
-		
-		# print(paste(colname,lowerBound, upperBound, colname, collapse = "\t"))
 		
 		col[col[,2] <= lowerBound | col[,2] >= upperBound, 2] <- 1
 		col[col[,2] > lowerBound & col[,2] < upperBound, 2] <- 0
@@ -503,9 +501,9 @@ for (i in 2:ncol(data3)){
 }
 rownames(dataOut3) <- rownames(data3)
 
-pr1 <- predict(model1, dataOut1[,-1], type="prob")
-pr2 <- predict(model2, dataOut2[,-1], type="prob")
-pr3 <- predict(model3, dataOut3[,-1], type="prob")
+pr1 <- suppressMessages(predict(model1, dataOut1[,-1], type="prob"))
+pr2 <- suppressMessages(predict(model2, dataOut2[,-1], type="prob"))
+pr3 <- suppressMessages(predict(model3, dataOut3[,-1], type="prob"))
 
 prediction <- data.frame(cbind(pr1[1], pr2[1], pr3[1]))
 rownames(prediction) <- rownames(data)

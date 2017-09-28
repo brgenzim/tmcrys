@@ -30,12 +30,10 @@ use warnings;
 
 
 
-use Cwd 'abs_path';
-my $mydir = abs_path($0);
-$mydir =~ s/sequenceFeatures.pl//g;
+my $mydir =~ $ENV{'TMCRYS'};
 
 use lib '.';
-if ( !-f "$mydir/OB.pm" || !-f "$mydir/zmat.dat" || !-f "$mydir/Hydrophobicity_scores.dat"){
+if ( !-f "$mydir/tools/OB.pm" || !-f "$mydir/data/zmat.dat" || !-f "$mydir/data/Hydrophobicity_scores.dat"){
 	die "Please put modified OB.pm, zmat.dat and Hydrophobicity_scores.dat to the working directory\n";
 }
 
@@ -380,7 +378,7 @@ sub length_regions{
 
 sub fromR{
 	(my $seq) = @_;
-	my @Rfeatures = `Rscript ./sequenceFeatures.R $seq`;
+	my @Rfeatures = `Rscript $mydir/sequenceFeatures.R $seq`;
 	shift @Rfeatures;
 	
 	foreach my $feature (@Rfeatures){

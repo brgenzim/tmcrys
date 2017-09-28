@@ -94,8 +94,8 @@ sub ob_vars {
 ##set variables
 	$self->{input} = $opt->{"i"};
 	$self->{outfile} = $opt->{"o"};
-	$self->{zmat} = $opt->{"m"} ? $opt->{"m"} : "/bigdisk/users/jvarga/bin/OB/zmat.dat";
-	$self->{gravy_in} = $opt->{"p"} ? $opt->{"p"} : "/bigdisk/users/jvarga/bin/OB/Hydrophobicity_scores.dat";
+	$self->{zmat} = $opt->{"m"} ? $opt->{"m"} : "$ENV{'TMCRYS'}/data/zmat.dat";
+	$self->{gravy_in} = $opt->{"p"} ? $opt->{"p"} : "$ENV{'TMCRYS'}/data/Hydrophobicity_scores.dat";
 	$self->{nomw} = 1 if ($opt->{"n"});
 	
 	unless (($self->{input}) and ($self->{outfile})) {
