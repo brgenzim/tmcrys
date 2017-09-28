@@ -48,7 +48,9 @@ If downloaded as a compressed file, please uncompress it to a folder.
 
 Add $TMCRYS to the environmental variables with
 
-`export TMCRYS=/path/to/tmcrys/folder  `  
+```
+export TMCRYS=/path/to/tmcrys/folder  
+```
 Alternatively, you may copy it to ~/.bashrc or ~/.profile or ~/.bash_profile according to your system settings.
 If you want to make it permanent, write `TMCRYS=/path/to/tmcrys/folder` to /etc/environment.
 
@@ -75,8 +77,8 @@ For test purposes, all these are included in the ./test folder.
 
 To run please type
 ```
-	cd $TMCRYS
-	./tmcrys (-i <CCTOPFILE> | -d <CCTOPDIR> | -s <DELIMITEDFILE>) -n <NETSURFPFILE> --wd <DIR>
+cd $TMCRYS
+./tmcrys (-i <CCTOPFILE> | -d <CCTOPDIR> | -s <DELIMITEDFILE>) -n <NETSURFPFILE> --wd <DIR>
 ```
 
 Help for every script is available by typing `-h` or `--help` or no arguments when running commands.
