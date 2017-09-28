@@ -13,8 +13,7 @@ TMCrys:...
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
 ### Prerequisites
 
@@ -48,7 +47,8 @@ If zipped, please unzip it to a folder.
 Add $TMCRYS to the environmental variables with
 
 	`export TMCRYS=/path/to/tmcrys/folder`
-If you want to make it permanent, copy it to ~/.bashrc or ~/.profile or ~/.bash_profile according to your system settings.
+Or you may copy it to ~/.bashrc or ~/.profile or ~/.bash_profile according to your system settings.
+If you want to make it permanent, write `TMCRYS=/path/to/tmcrys/folder to /etc/environment
 
 
 ### Test
