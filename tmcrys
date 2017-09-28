@@ -30,7 +30,6 @@
 #    along with TMCrys.  If not, see <http://www.gnu.org/licenses/>.
 #
 ####################
-TMCRYS="/bigdisk/users/jvarga/crys/tools/vegso/"
 
 HELP="
 TMCrys version 0.1\n
@@ -112,8 +111,8 @@ done
 
 
 if [[ $TEST ]]; then
-	WDDIR="./test"
-	NETFILE="./test"
+	WDDIR="$TMCRYS/test"
+	NETFILE="$TMCRYS/test"
 	SUCCESS=1
 	
 	echo "Creating features..."
