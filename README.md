@@ -68,7 +68,7 @@ For running TMCrys you will need:
 	- A directory of CCTOP files. Use `-d <CCTOPDIR>` option. If you use this possibility, please provide a name for the project with `--name NAME` option.
 	- Alternatively, you may also use a space delimited file where lines look as follow: 'proteinID sequence topology). Here, a string represents topology as in `test/test.txt` file. Use `-s <DELIMITEDFILE>` option.
 	You may predict the topology of your protein with CCTOP at http://cctop.enzim.ttk.mta.hu. For multiple proteins, a python script is available at http://cctop.enzim.ttk.mta.hu/?_=/documents/direct_interface.html.
-2. netsurfp result .rsa files. Please provide them with `-n <NETSURFPFILE>` option. It may contain results for or multiple proteins.
+2. netsurfp result .rsa files. Please provide them with `-n <NETSURFPFILE>` option. It may contain results for or multiple proteins. netsurfp may be run or downloaded from http://www.cbs.dtu.dk/services/NetSurfP/.
 3. A working directory, specified with `--wd <DIR>` option.
 
 For test purposes, all these are included in the ./test folder.
