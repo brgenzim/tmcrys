@@ -376,7 +376,7 @@ sub length_regions{
 
 sub fromR{
 	(my $seq) = @_;
-	my @Rfeatures = `Rscript $mydir/sequenceFeatures.R $seq`;
+	my @Rfeatures = `Rscript $mydir/tools/sequenceFeatures.R $seq`;
 	shift @Rfeatures;
 	
 	foreach my $feature (@Rfeatures){
