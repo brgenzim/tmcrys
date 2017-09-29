@@ -91,7 +91,7 @@ Julia Varga
 Gábor E. Tusnády
 
 ## Troubleshooting
-If you encounter any problems, please feel free to open an issue or contact: (email@ttk.mta.hu)
+If you encounter any problems, please feel free to open an issue or contact: tmcrys@ttk.mta.hu
 
 ## License
 This project is licensed under the GNU License - see the LICENSE.md file for details.
