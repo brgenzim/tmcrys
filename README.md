@@ -43,9 +43,9 @@ TMCrys requires an installed copy of BioPerl (http://bioperl.org/INSTALL.html) f
 
 ### Installing
 
-Download or clone git folder from https://github.com/tmcrys/tmcrys/.
+Download or clone git folder from https://github.com/brgenzim/tmcrys/.
 ```
-git clone https://github.com/tmcrys/tmcrys/
+git clone https://github.com/brgenzim/tmcrys/
 ```
 If downloaded as a compressed file, please uncompress it to a folder.
 
