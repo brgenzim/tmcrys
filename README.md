@@ -28,14 +28,15 @@ install.packages("protr", repos='http://cran.rstudio.com/')
 ```
 
 
-Perl Modules - you may need to add `sudo` before the commands.
+Perl Modules
 
 ```
-cpan install XML::LibXML
-cpan install Bio::Tools::Protparam
-cpan install Getopt::Std
-cpan install Statistics::R
+sudo -i cpan install XML::LibXML
+sudo -i cpan install Bio::Tools::Protparam
+sudo -i cpan install Getopt::Std
+sudo -i cpan install Statistics::R
 ```
+You may need to add `sudo -i` before the commands.
 
 You will also need a modified version of the OB module (used for OB-score calculation), it is downloaded together with TMCrys to tools directory. Please do not remove it or data (data/zmat.dat) belonging to it.
 
@@ -60,11 +61,12 @@ If you want to make it permanent, write `TMCRYS=/path/to/tmcrys/folder` to /etc/
 
 
 ### Test
-Please run
+Please run:
 ```
 cd $TMCRYS
 ./tmcrys --test
 ```
+If text ends with 'Test ok', then the installation was successful.
 
 ### Usage
 
