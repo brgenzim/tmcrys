@@ -25,7 +25,6 @@
 #    along with TMCrys.  If not, see <http://www.gnu.org/licenses/>.		#
 #										#
 #################################################################################
-TMCRYS="$(dirname $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}"))"
 
 HELP="
 TMCrys version 0.1\n

@@ -26,7 +26,8 @@
 #										#
 #################################################################################
 TMCRYS="$(dirname $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}"))"
-
+echo $TMCRYS
+exit
 HELP="
 TMCrys version 0.1\n
 \n
