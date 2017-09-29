@@ -61,7 +61,7 @@ If you want to make it permanent, write `TMCRYS=/path/to/tmcrys/folder` to /etc/
 
 
 ### Test
-Please run:
+After insttaling all modules and packages, please run:
 ```
 cd $TMCRYS
 ./tmcrys --test
