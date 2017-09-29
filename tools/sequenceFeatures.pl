@@ -395,7 +395,7 @@ sub fromR{
 	   );
 	
 	chomp(@Rfeatures = split "\n", $Rfeatures[0]);
-#	print STDERR (Dumper @Rfeatures);	
+
 	foreach my $feature (@Rfeatures){
 		chomp $feature;
 		my ($key, $value) = split "\t", $feature;

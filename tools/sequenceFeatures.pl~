@@ -399,7 +399,6 @@ sub fromR{
 	foreach my $feature (@Rfeatures){
 		chomp $feature;
 		my ($key, $value) = split "\t", $feature;
-		print "$feature\n";
 		$features{$key} = $value if exists $features{$key};
 	}
 	
