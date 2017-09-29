@@ -39,7 +39,7 @@ use XML::LibXML;
 use Bio::Tools::Protparam;;
 use Getopt::Std;
 use OB;
-
+use Statistics::R;
 
 ######### GLOBAL #########
 our($opt_i, $opt_s, $opt_n, $opt_h, $opt_f, $opt_d);
@@ -376,7 +376,17 @@ sub length_regions{
 
 sub fromR{
 	(my $seq) = @_;
-	my @Rfeatures = `Rscript $mydir/tools/sequenceFeatures.R $seq`;
+	my $R = Statistics::R->new();
+	$R->set('seq', $seq);
+	my @Rfeatures =  my $out1 = $R->run(
+	      q`library("protr", verbose = F, quietly = T, warn.conflicts = F)`,
+	      q`moreau <- extractMoreauBroto(seq)`,
+	      q`moran <- extractMoran(seq)`,
+	      q`paac <- extractPAAC(seq)`,
+	      q`trans <- extractCTDT(seq)`,
+	      q`out <- c(as.list(moreau), as.list(moran), as.list(paac), as.list(trans))`,
+	      q`write.table(t(as.data.frame(out)), file='', sep="\t", quote=FALSE)`
+	   );
 	shift @Rfeatures;
 	
 	foreach my $feature (@Rfeatures){
@@ -384,6 +394,7 @@ sub fromR{
 		my ($key, $value) = split "\t", $feature;
 		$features{$key} = $value if exists $features{$key};
 	}
+
 	return 1;
 }
 
