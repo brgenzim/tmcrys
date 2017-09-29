@@ -34,6 +34,7 @@ Perl Modules - you may need to add `sudo` before the commands.
 cpan install XML::LibXML
 cpan install Bio::Tools::Protparam
 cpan install Getopt::Std
+cpan install Statistics::R
 ```
 
 You will also need a modified version of the OB module (used for OB-score calculation), it is downloaded together with TMCrys to tools directory. Please do not remove it or data (data/zmat.dat) belonging to it.
