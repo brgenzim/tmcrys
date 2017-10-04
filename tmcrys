@@ -58,53 +58,54 @@ fi
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
-key="$1"
+	key="$1"
+#	echo "$1 $2"
+	case $key in
+	    -s)
+	    TABFILE="$2"
+	    shift # past argument
+	    shift # past value
+	    ;;
+	    -d)
+	    CCTOPDIR="$2"
+	    shift # past argument
+	    shift # past value
+	    ;;
+	    -i)
+	    CCTOPFILE="$2"
+	    shift # past argument
+	    shift # past value
+	    ;;
+	    -n)
+	    NETFILE="$2"
+	    shift # past argument
+	    shift # past value
+	     ;;
+	    --wd)
+	    WDDIR="$2"
+	    shift # past argument
+	    shift # past value
+	    ;;    
+	    --version)
+	    echo "TMCrys version 0.1"
+	    exit
+	    ;;
+	    --help|-h)
+	    echo -e $HELP
+	    exit
+	    ;;
+	    --name)
+	    name="$2"
+	    shift # past argument
+	    shift # past value
+	    ;;
+	    --test)
+	    TEST=1
+	    shift # past argument
+	    shift # past value
+	    ;;
 
-case $key in
-    -s)
-    TABFILE="$2"
-    shift # past argument
-    shift # past value
-    ;;
-    -d)
-    CCTOPDIR="$2"
-    shift # past argument
-    shift # past value
-    ;;
-    -i)
-    CCTOPFILE="$2"
-    shift # past argument
-    shift # past value
-    ;;
-    -n)
-    NETFILE="$2"
-    shift # past argument
-    ;;
-    --wd)
-    TMPDIR="$2"
-    shift # past argument
-    shift # past value
-    ;;    
-    --version)
-    echo "TMCrys version 0.1"
-    exit
-    ;;
-    --help|-h)
-    echo -e $HELP
-    exit
-    ;;
-    --name)
-    name="$2"
-    shift # past argument
-    shift # past value
-    ;;
-    --test)
-    TEST=1
-    shift # past argument
-    shift # past value
-    ;;
-
-esac
+	esac
 done
 
 
@@ -159,8 +160,8 @@ if [[ $TEST ]]; then
 fi
 
 
-if [[ ! -d "$NETFILE" ]]; then
-	echo "Please specify valid path to NetSurfP directory!"
+if [[ ! -f "$NETFILE" ]]; then
+	echo "Please specify valid path to NetSurfP file!"
 	exit
 fi
 
@@ -169,37 +170,47 @@ if [[ ! -d "$WDDIR" ]]; then
 	exit
 fi
 
-
+if [[ "$CCTOPDIR" != "" && $name == "" ]]; then
+	echo "Please specify a project name for CCTOP dir mode with --name option"
+	exit
+fi
 
 
 if [[ "$CCTOPDIR" != "" ]]; then
-	if [[! -d "$CCTOPDIR" ]]; then
+	if [[ ! -d "$CCTOPDIR" ]]; then
 		echo "Please specify valid path to directory containing CCTOP XMLs!"
 	else	
-		$TMCRYS/tools/sequenceFeatures.pl -d "$CCTOPDIR" -n "$NETFILE" > $WDDIR/$name.features
+		echo "Calculating features for CCTOP files in $CCTOPDIR"
+		$TMCRYS/tools/sequenceFeatures.pl -d "$CCTOPDIR" -n "$NETFILE" -f > $WDDIR/$name.features
 	fi
 fi
 
-if [[ "$TABFILE" != ""]]; then 
+if [[ "$TABFILE" != "" ]]; then 
 	if [[ ! -f "$TABFILE" ]]; then
 		echo "Please specify valid path to space delimited file: 'id sequence topology'!"
 	else
-		name=$(basename $CCTOPFILE ".txt")
-		$TMCRYS/tools/sequenceFeatures.pl -s "$TABFILE" -n "$NETFILE" > $WDDIR/$name.features
+		echo "Calculating features for $TABFILE"
+		name=$(basename $TABFILE ".txt")
+		$TMCRYS/tools/sequenceFeatures.pl -s "$TABFILE" -n "$NETFILE" -f > $WDDIR/$name.features
 	fi
 fi
 
 if [[ "$CCTOPFILE" != "" ]]; then
-	if [[! -f "CCTOPFILE" ]]; then
+	if [[ ! -f "$CCTOPFILE" ]]; then
 		echo "Please specify valid path to a CCTOP XML!"
 	else
+		echo "Calculating features for a CCTOP file"
 		name=$(basename $CCTOPFILE ".xml")
-		$TMCRYS/tools/sequenceFeatures.pl -i "$CCTOPFILE" -n "$NETFILE" > $WDDIR/$name.features
+		echo $name
+		$TMCRYS/tools/sequenceFeatures.pl -i "$CCTOPFILE" -n "$NETFILE" -f > $WDDIR/$name.features
 	fi
 fi
 
-Rscript $TMCRYS/tools/prediction.R.R -i $WDDIR/$name.features -o $WDDIR/$name.prediction --verbose
+echo -e "Features calculated. Prediction..."
 
+
+Rscript $TMCRYS/tools/prediction.R -i $WDDIR/$name.features -o $WDDIR/$name.prediction --verbose
+echo "Done, results written in $WDDIR/$name.prediction"
 
 
 

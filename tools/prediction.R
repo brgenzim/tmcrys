@@ -2,7 +2,7 @@
 
 ################################################################################
 #										#
-#    TMCrys version 0.1								#
+#    TMCrys version 1.0								#
 #    Copyright 2017 Julia Varga and Gábor E. Tusnády				#
 #										#
 #    If you use TMCrys, please cite: 						#
@@ -42,11 +42,11 @@ Options:
    --Rdata  	path to tmcrys.Rdata if not in the same directory as script or was renamed [default: ./tmcrys.Rdata]
    --version   print version and exit
 
-TMCrys version 0.1
+TMCrys version 1.0
 If you use it, please cite Julia Varga and Gábor E. Tusnády TMCrys... 
 ' -> doc
 
-opts <- docopt(doc, help = T, version = "TMCrys version 0.1\n")
+opts <- docopt(doc, help = T, version = "TMCrys version 1.0\n")
 if (opts$Rdata == TRUE ){
 	if (file.exists(opts$RFILE)) {
 		load(opts$RFILE)
@@ -86,20 +86,8 @@ dataOut1 <- data.frame(rownames(data1))
 for (i in 2:ncol(data1)){
 	col <- data.frame(data1[,c(1,i)])
 	colname <- colnames(col)[2]
-	if ( colname == "pI"){
-		col$dipI <- NA
-		col$dipI[col$pI > 7 ] <- 1
-		col$dipI[col$pI <= 7 ] <- 0
-		dataOut1 <- cbind(dataOut1 , col$dipI)
-	} 	else if ( grepl("lag", colname)  || 
-			   colname == "Xc2.lambda.1" || 
-			   colname == "Xc2.lambda.25" || 
-			   colname == "Xc2.lambda.30" ||
-			   colname == "Xc2.lambda.10" ||
-			   colname == "Xc2.lambda.15" ||
-			   colname == "Xc2.lambda.2" ||
-			   colname == "Xc2.lambda.20" ||
-			   colname == "Xc2.lambda.3" 
+	if ( grepl("lag", colname)  ||
+		grepl("lambda", colname)
 	) {
 		
 		lowerBound <- dev1[colname,"lowerBound"]
@@ -120,173 +108,44 @@ for (i in 2:ncol(data1)){
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
 		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (grepl("Xc1", colname) || 
+	}	else if (grepl("Xc1", colname) ||
+			 colname == "C" ||
+			 colname == "Q" ||
+			 colname == "T" ||
+			 colname == "H" ||
+			 colname == "R" ||
+			 colname == "V" ||
+			 colname == "W" ||
+			 colname == "NonTM.C" ||
+			 colname == "NonTM.H" ||
+			 colname == "NonTM.K" ||
+			 colname == "NonTM.M" ||
+			 colname == "NonTM.T" ||
+			 colname == "NonTM.charge" ||
+			 colname == "NonTM.hydroxil" ||
+			 colname == "NonTM.polar" ||
+			 colname == "NonTM.pos" ||
+			 colname == "TM.A" ||
 			 colname == "TM.C" || 
-			 colname == "TM.D" || 
-			 colname == "TM.H" ||
-			 colname == "TM.K" ||
+			 colname == "TM.H" || 
+			 colname == "TM.Q" ||
+			 colname == "TM.W" ||
+			 colname == "TM.pos" ||
+			 colname == "TMratio" ||
+			 colname == "avgTM" ||
 			 colname == "buriedratio" ||
+			 colname == "charge" ||
+			 colname == "exposed"||
 			 colname == "length" ||
 			 colname == "lengthNonTM" ||
-			 colname == "lengthTM"||
-			 colname == "numTM" ||
-			 colname == "polar" ||
-			 colname == "pos" ||
-			 colname == "prop1.Tr1221" ||
-			 colname == "prop1.Tr1331" ||
-			 colname == "prop3.Tr2332" ||
-			 colname == "prop5.Tr1331" ||
-			 colname == "prop5.Tr2332" ||
-			 colname == "prop6.Tr1331" ||
-			 colname == "NonTM.W" ||
-			 colname == "E" ||
-			 colname == "NonTM.pos" ||
-			 colname == "Q" ||
-			 colname == "TM.E" ||
-			 colname == "TM.P" ||
-			 colname == "TM.Q" ||
-			 colname == "TM.R" ||
-			 colname == "TMratio" ||
-			 colname == "lengthTM" ||
 			 colname == "longestNonTM" ||
-			 colname == "neg" ||
-			 colname == "TM.W" ||
-			 colname == "Xc1.P"
+			 colname == "numTM"
 			 
 	) {
 		newcol <- data.frame(log(col[,colname]))
 		colnames(newcol) <- c(colname)
 		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "C") {
-		col[col[,2] <= 0.005, 2] <- 1
-		col[col[,2] > 0.005, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "K") {
-		col[col[,2] <= 0.045, 2] <- 1
-		col[col[,2] > 0.045, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	} 	else if (colname == "NonTM.E") {
-		col[col[,2] <= 0.05, 2] <- 1
-		col[col[,2] > 0.05, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "half_life") {
-		col[col[,2] < 20, 2] <- 1
-		col[col[,2] >= 20, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "NonTM.H" || 
-			 colname == "NonTM.I" || 
-			 colname == "NonTM.N" ||  
-			 colname == "NonTM.Q" ||  
-			 colname == "NonTM.S" ||  
-			 colname == "neg" ||
-			 colname == "TM.T" ||
-			 colname == "TM.charge"||
-			 colname == "TM.pos"
-	) {
-		col[col[,2] <= 0.01, 2] <- 1
-		col[col[,2] > 0.01, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "NonTM.K"	) {
-		col[col[,2] <= 0.08, 2] <- 1
-		col[col[,2] > 0.08, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "TM.noCharge"	) {
-		col[col[,2] <= 0.98, 2] <- 1
-		col[col[,2] > 0.98, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	} 	else if (colname == "TM.sulfur"	) {
-		col[col[,2] <= 0.015, 2] <- 1
-		col[col[,2] > 0.015, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "avgTM"	) {
-		col[col[,2] <= 18, 2] <- 1
-		col[col[,2] > 18, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "charge"	) {
-		col[col[,2] <= 0.2, 2] <- 1
-		col[col[,2] > 0.2, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "fractionTM"	) {
-		col[col[,2] <= 0.3, 2] <- 1
-		col[col[,2] > 0.3, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "noCharge"	) {
-		col[col[,2] <= 0.8, 2] <- 1
-		col[col[,2] > 0.8, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "prop7.Tr1221"	) {
-		col[col[,2] <= 0.22, 2] <- 1
-		col[col[,2] > 0.22, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "NonTM.P") {
-		col[col[,2] <= 0.01 || col[,2] >= 0.04, 2] <- 1
-		col[col[,2] > 0.01 && col[,2] < 0.04, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "NonTM.T") {
-		col[col[,2] <= 0.01 || col[,2] >= 0.05, 2] <- 1
-		col[col[,2] > 0.01 && col[,2] < 0.05, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "OB") {
-		col[col[,2] <= 2.5 || col[,2] >= 5, 2] <- 1
-		col[col[,2] > 2.5 && col[,2] < 5, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "R") {
-		col[col[,2] <= 0.025 || col[,2] >= 0.06, 2] <- 1
-		col[col[,2] > 0.025 && col[,2] < 0.06, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "TM.N" || colname == "TM.neg") {
-		col[col[,2] <= 0.01 || col[,2] >= 0.045, 2] <- 1
-		col[col[,2] > 0.01 && col[,2] < 0.045, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "TM.M") {
-		col[col[,2] <= 0.01 || col[,2] >= 0.075, 2] <- 1
-		col[col[,2] > 0.01 && col[,2] < 0.075, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}	else if (colname == "TM.Y") {
-		col[col[,2] <= 0.01 || col[,2] >= 0.08, 2] <- 1
-		col[col[,2] > 0.01 && col[,2] < 0.08, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut1 <- cbind(dataOut1, newcol)
-	}
+	}	
 }	
 rownames(dataOut1) <- rownames(data1)
 
@@ -295,21 +154,11 @@ dataOut2 <- data.frame(rownames(data2))
 for (i in 2:ncol(data2)){
 	col <- data.frame(data2[,c(1,i)])
 	colname <- colnames(col)[2]
-	if ( colname == "pI"){
-		col$dipI <- NA
-		col$dipI[col$pI > 7 ] <- 1
-		col$dipI[col$pI <= 7 ] <- 0
-		dataOut2 <- cbind(dataOut2 , col$dipI)
-	} 	else if ( grepl("lag", colname)  ||
-			   grepl("lambda", colname) ||
-			   colname == "NonTM.alifatic" ||
-			   colname == "NonTM.aromatic" ||
-			   colname == "NonTM.charge" ||
-			   colname == "NonTM.hydroxil" ||
-			   colname == "NonTM.neg" ||
-			   colname == "NonTM.noCharge" ||
-			   colname == "NonTM.nonpolar" ||
-			   colname == "NonTM.polar"
+	if ( grepl("lag", colname)  ||
+		grepl("lambda", colname) ||
+		colname == "NonTM.alifatic" ||
+		colname == "NonTM.charge" ||
+		colname == "NonTM.neg" 
 	) {
 		
 		lowerBound <- dev2[colname,"lowerBound"]
@@ -329,43 +178,45 @@ for (i in 2:ncol(data2)){
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
 		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if ( colname == "D" || 
+	}	else if ( grepl("Xc1", colname) ||
+			  grepl("prop", colname) ||
+			  colname == "C" ||
+			  colname == "D" || 
 			  colname == "E" || 
+			  colname == "F" || 
 			  colname == "I" ||
 			  colname == "K" ||
 			  colname == "L" ||
 			  colname == "M" ||
+			  colname == "N" ||
+			  colname == "P" ||
+			  colname == "Q" ||
+			  colname == "R" ||
+			  colname == "TM.neg" ||
+			  colname == "TM.pos" ||			  
+			  colname == "TM.A" ||
 			  colname == "TM.C" ||
 			  colname == "TM.D" ||
 			  colname == "TM.E" ||
+			  colname == "TM.F" ||
+			  colname == "TM.G" ||
 			  colname == "TM.H" ||
-			  colname == "TM.I" ||
 			  colname == "TM.K" ||
-			  colname == "TM.L" ||
 			  colname == "TM.N" ||
-			  colname == "TM.P" ||
+			  colname == "TM.M" ||
 			  colname == "TM.W" ||
-			  colname == "TM.aromatic" ||
-			  colname == "TM.hydroxil" ||
-			  colname == "TM.neg" ||
-			  colname == "TM.polar" ||
-			  colname == "Xc1.C" ||
-			  colname == "Xc1.D" ||
-			  colname == "Xc1.E" ||
-			  colname == "Xc1.F" ||
-			  colname == "Xc1.G" ||
-			  colname == "Xc1.H" ||
-			  colname == "Xc1.K" ||
-			  colname == "Xc1.L" ||
-			  colname == "Xc1.R" ||
-			  colname == "Xc1.Q" ||
-			  colname == "Xc1.S" ||
-			  colname == "Xc1.T" ||
-			  colname == "Xc1.V" ||
-			  colname == "Xc1.W" ||
+			  colname == "TM.P" ||
+			  colname == "TM.Q" ||
+			  colname == "TM.R" ||
+			  colname == "TM.Y" ||
+			  colname == "TMratio" ||
 			  colname == "alifatic" ||
 			  colname == "aromatic" ||
+			  colname == "avgTM" ||
 			  colname == "buriedratio" ||
+			  colname == "charge" ||
+			  colname == "exposed" ||
+			  colname == "fractionTM" ||
 			  colname == "length" ||
 			  colname == "lengthNonTM" ||
 			  colname == "lengthTM" ||
@@ -373,91 +224,16 @@ for (i in 2:ncol(data2)){
 			  colname == "neg" ||
 			  colname == "noCharge" ||
 			  colname == "numTM" ||
-			  colname == "TMratio"
+			  colname == "nonpolar"||
+			  colname == "polar"||
+			  colname == "pos"||
+			  colname == "sulfur"
 	) {
 		newcol <- data.frame(log(col[,colname]))
 		colnames(newcol) <- c(colname)
 		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "OB") {
-		col[col[,2] <= 2.5 || col[,2] >= 5, 2] <- 1
-		col[col[,2] > 2.5 && col[,2] < 5, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "TM.M") {
-		col[col[,2] <= 0.02 , 2] <- 1
-		col[col[,2] > 0.02 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "TM.N" || colname == "TM.R") {
-		col[col[,2] <= 0.01 , 2] <- 1
-		col[col[,2] > 0.01 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "TM.Q" ) {
-		col[col[,2] <= 0.005 , 2] <- 1
-		col[col[,2] > 0.005 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	} 	else if (colname == "TM.noCharge") {
-		col[col[,2] <= 0.98 , 2] <- 1
-		col[col[,2] > 0.98 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	} 	else if (colname == "TM.sulfur") {
-		col[col[,2] <= 0.02 , 2] <- 1
-		col[col[,2] > 0.02 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "Xc1.M") {
-		col[col[,2] <= 3 , 2] <- 1
-		col[col[,2] > 3 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "charge" || colname == "fractionTM") {
-		col[col[,2] <= 0.2 , 2] <- 1
-		col[col[,2] > 0.2 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "gravy") {
-		col[col[,2] <= 1.2 , 2] <- 1
-		col[col[,2] > 1.2 , 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	} 	else if (colname == "TM.S") {
-		col[col[,2] <= 0.02 || col[,2] >= 0.09, 2] <- 1
-		col[col[,2] > 0.02 && col[,2] < 0.09, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "TM.T") {
-		col[col[,2] <= 0.025 || col[,2] >= 0.08, 2] <- 1
-		col[col[,2] > 0.025 && col[,2] < 0.08, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "TM.Y") {
-		col[col[,2] <= 0.01 || col[,2] >= 0.08, 2] <- 1
-		col[col[,2] > 0.01 && col[,2] < 0.08, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
-	}	else if (colname == "TM.charge") {
-		col[col[,2] <= 0.01 || col[,2] >= 0.09, 2] <- 1
-		col[col[,2] > 0.01 && col[,2] < 0.09, 2] <- 0
-		newcol <- data.frame(col[,colname])
-		colnames(newcol) <- c(colname)
-		dataOut2 <- cbind(dataOut2, newcol)
 	}
-}	
+}
 rownames(dataOut2) <- rownames(data2)
 
 #3rd step - crystallization

@@ -1,10 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Data::Dumper;
 ################################################################################
 #										#
-#    TMCrys version 0.1								#
+#    TMCrys version 1.0								#
 #    Copyright 2017 Julia Varga and Gábor E. Tusnády				#
 #										#
 #    If you use TMCrys, please cite: 						#
@@ -32,11 +31,11 @@ my $mydir = $ENV{'TMCRYS'};
 
 use lib "$ENV{'TMCRYS'}/tools/";
 if ( !-f "$ENV{'TMCRYS'}/tools/OB.pm" || !-f "$ENV{'TMCRYS'}/data/zmat.dat" || !-f "$ENV{'TMCRYS'}/data/Hydrophobicity_scores.dat"){
-	die "Please put modified OB.pm, zmat.dat and Hydrophobicity_scores.dat to the working directory\n";
+	die "Please put modified OB.pm, zmat.dat and Hydrophobicity_scores.dat to the data directory\n";
 }
 
 use XML::LibXML;
-use Bio::Tools::Protparam;;
+use Bio::Tools::Protparam;
 use Getopt::Std;
 use OB;
 use Statistics::R;
@@ -57,7 +56,7 @@ my $help =
 	  -f print header with feature names
 	  -h print this help
 		
-TMCrys version 0.1
+TMCrys version 1.0
 If you use it, please cite Julia Varga and Gábor E. Tusnády TMCrys... \n
 ";
 
@@ -132,8 +131,9 @@ my %aagroups = (
 "V" => ['alifatic', 'noCharge', 'nonpolar'], 
 );
 
+my %rsa;
+readRSA();
 ####### END GLOBAL #######
-
 
 my ($seq, $top, $id) = ("", "", "");
 # Get id of sequence
@@ -224,7 +224,7 @@ sub calculate{
 		print STDERR $. ," \t $id: There was some problems with processing CCTOP or determining region lengths. Line or file is left out.\n" ;
 		return 0;
 	}
-	if (netsurfp() == 0){
+	if (netsurfp($id) == 0){
 		print STDERR $. ," \t $id: There was some problems with netsurfp results. Line or file is left out.\n" ;
 		return 0;
 	}
@@ -382,7 +382,6 @@ sub fromR{
 	(my $seq) = @_;
 	my $R = Statistics::R->new();
 	$R->set('seq', $seq);
-	$R->set('seq', $seq);
 
 	my @Rfeatures = $R->run(
 	      q`library("protr", verbose = F, quietly = T, warn.conflicts = F)`,
@@ -448,8 +447,8 @@ sub protparam{
 	$features{'stability'} = $pp->stability() eq 'stable' ? 1 : 0;
 	$features{'half_life'} = $pp -> half_life;
 	$features{'lgMolWeight'} = log10($pp -> molecular_weight);
-	$features{'pI'} = $pp->theoretical_pI;
-	$features{'gravy'} = $pp->gravy;
+	$features{'pI'} = $pp -> theoretical_pI;
+	$features{'gravy'} = $pp -> gravy;
 
  	$seq =~ m/(N[^P][ST][^P])/g;
  	foreach my $pos (@-){
@@ -480,26 +479,28 @@ sub null_features{
 	return 1;
 }
 
-sub netsurfp{
-	chomp(my @result = `grep $id $opt_n -h| sed 's/ {2,}//g'`);
-	
-	if(scalar (@result) == 0){
-		return 0;
+sub readRSA{
+	open RSA, '<', $opt_n;
+	while (my $line = <RSA>){
+		chomp $line;
+		
+		if ($line =~ m/^[BE] [ACDEFGHIKLMNPQRSTVWY]/g){
+			$line =~ s/ {2,}/ /g;
+			my @array = split ' ', $line;
+			my $idrsa = $array[2];
+			$rsa{$idrsa}{'bur'} .= $array[0];
+			$rsa{$idrsa}{'sum'} += $array[4];
+		}
 	}
-	else{
-		@result = do { my %seen; grep { !$seen{$_}++ } @result };
-		if ($features{'length'} != scalar @result){
-			print STDERR ("Something wrong with netsurfp length! $id", scalar @result, " ", $features{'length'}, "\n") ;
-			return 0;
-		}
-		my $bur = "";
-		my $sum = 0;
+	return 1;
+}
 
-		foreach my $res (@result){
-			my @array = split ' ', $res;
-			$bur .= $array[0];
-			$sum += $array[4];
-		}
+sub netsurfp{
+	my ($id) = @_;
+	if (exists $rsa{$id}){
+		my $bur = $rsa{$id}{'bur'};
+		my $sum = $rsa{$id}{'sum'};
+		
 		my $exposed = () = $bur =~ m/E/g;
 
 		$features{'avgRSA'} = $sum / $features{'length'};
