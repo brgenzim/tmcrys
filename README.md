@@ -89,6 +89,9 @@ cd $TMCRYS
 
 Help for every script is available by typing `-h` or `--help` or no arguments when running commands.
 
+## Results
+The result file of TMCrys contains propensity of success for every steo (pr1, pr2, p3) and for the whole process (prw) together with the final predictions (pred1, pred2, pred3, predw) according to the thresholds described in the paper.
+
 ## Authors
 Julia Varga  
 Gábor E. Tusnády
