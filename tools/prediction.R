@@ -83,9 +83,10 @@ data3 <-  data[,which(colnames(data) %in% features3)]
 
 #1st step - solubilization
 dataOut1 <- data.frame(rownames(data1))
-for (i in 2:ncol(data1)){
-	col <- data.frame(data1[,c(1,i)])
-	colname <- colnames(col)[2]
+for (i in 1:ncol(data1)){
+	col <- data.frame(data1[,i])
+	colname <- colnames(data1)[i]
+	colnames(col) <- colname
 	if ( grepl("lag", colname)  ||
 		grepl("lambda", colname)
 	) {
@@ -97,10 +98,9 @@ for (i in 2:ncol(data1)){
 			next
 		}
 		
-		col[col[,2] <= lowerBound | col[,2] >= upperBound, 2] <- 1
-		col[col[,2] > lowerBound & col[,2] < upperBound, 2] <- 0
+		col[col[,1] <= lowerBound | col[,1] >= upperBound,1] <- 1
+		col[col[,1] > lowerBound & col[,1] < upperBound,1] <- 0
 		
-		colsum <- sum(col[,2])
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
 		dataOut1 <- cbind(dataOut1, newcol)
@@ -151,9 +151,10 @@ rownames(dataOut1) <- rownames(data1)
 
 #2nd step - purification
 dataOut2 <- data.frame(rownames(data2))
-for (i in 2:ncol(data2)){
-	col <- data.frame(data2[,c(1,i)])
-	colname <- colnames(col)[2]
+for (i in 1:ncol(data2)){
+	col <- data.frame(data2[,i])
+	colname <- colnames(data2)[i]
+	colnames(col) <- colname
 	if ( grepl("lag", colname)  ||
 		grepl("lambda", colname) ||
 		colname == "NonTM.alifatic" ||
@@ -168,8 +169,8 @@ for (i in 2:ncol(data2)){
 			next
 		}
 		
-		col[col[,2] <= lowerBound | col[,2] >= upperBound, 2] <- 1
-		col[col[,2] > lowerBound & col[,2] < upperBound, 2] <- 0
+		col[col[,1] <= lowerBound | col[,1] >= upperBound, 1] <- 1
+		col[col[,1] > lowerBound & col[,1] < upperBound, 1] <- 0
 		
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
@@ -238,10 +239,11 @@ rownames(dataOut2) <- rownames(data2)
 
 #3rd step - crystallization
 dataOut3 <- data.frame(rownames(data3))
-for (i in 2:ncol(data3)){
-	col <- data.frame(data3[,c(1,i)])
-	colname <- colnames(col)[2]
-	if (  grepl("lag", colname)  || colname == "Xc2.lambda.20" || colname == "Xc2.lambda.25" || colname == "Xc2.lambda.30") {
+for (i in 1:ncol(data3)){
+	col <- data.frame(data3[,i])
+	colname <- colnames(data3)[i]
+	colnames(col) <- colname
+	if ( grepl("lag", colname)  || colname == "Xc2.lambda.20" || colname == "Xc2.lambda.25" || colname == "Xc2.lambda.30") {
 		
 		lowerBound <- dev3[colname,"lowerBound"]
 		upperBound <- dev3[colname,"upperBound"]
@@ -249,6 +251,9 @@ for (i in 2:ncol(data3)){
 		if(is.na(lowerBound) || is.na(upperBound) ){
 			next
 		}
+		
+		col[col[,1] <= lowerBound | col[,1] >= upperBound, 1] <- 1
+		col[col[,1] > lowerBound & col[,1] < upperBound, 1] <- 0
 		
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
@@ -276,7 +281,6 @@ for (i in 2:ncol(data3)){
 	}
 }
 rownames(dataOut3) <- rownames(data3)
-
 pr1 <- suppressMessages(predict(model1, dataOut1[,-1], type="prob"))
 pr2 <- suppressMessages(predict(model2, dataOut2[,-1], type="prob"))
 pr3 <- suppressMessages(predict(model3, dataOut3[,-1], type="prob"))

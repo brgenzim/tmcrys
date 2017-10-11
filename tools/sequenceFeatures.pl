@@ -243,7 +243,6 @@ sub calculate{
 	}
 	if ($features{'OB'} eq "NA"){
 		print STDERR $. , "\t $id: OB score could not be determined. Please fill by hand from http://www.compbio.dundee.ac.uk/xtal/cgi-bin/input.pl website.\n";
-		return 0;
 	}
 	if (fromR($seq) == 0){
 		print STDERR $. ," \t $id: There was some problems with using protparam module. Line or file is left out.\n" ;
