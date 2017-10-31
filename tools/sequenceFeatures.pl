@@ -44,18 +44,18 @@ use Statistics::R;
 our($opt_i, $opt_s, $opt_n, $opt_h, $opt_f, $opt_d);
 getopts('i:s:n:hfd:');
 
-my $help = 
+my $help =
 "\nUsage: ./sequenceFeatures.pl (-s TABFILE | -i CCTOPFILE) -n DIR [-h] [-f] [-d DIR]
-	  
+
 	  -i CCTOP file with single entry
 	  -d directory with CCTOP files
 	  -s file with 'id seq top'
 	  Either -s or -i or -d required.
-	
+
 	  -n netsurf results file (.rsa)
 	  -f print header with feature names
 	  -h print this help
-		
+
 TMCrys version 1.0
 If you use it, please cite Julia Varga and Gábor E. Tusnády TMCrys... \n
 ";
@@ -92,8 +92,7 @@ my @features = (
 
 
 );
-push @features, qw( 
-BHAR880101.lag1 BHAR880101.lag1.1  BHAR880101.lag10 BHAR880101.lag10.1 BHAR880101.lag15 BHAR880101.lag15.1 BHAR880101.lag2 BHAR880101.lag2.1  BHAR880101.lag20 BHAR880101.lag20.1 BHAR880101.lag25 BHAR880101.lag25.1 BHAR880101.lag30 BHAR880101.lag30.1 BHAR880101.lag5 BHAR880101.lag5.1  BIGC670101.lag1 BIGC670101.lag1.1  BIGC670101.lag10 BIGC670101.lag10.1 BIGC670101.lag15 BIGC670101.lag15.1 BIGC670101.lag2 BIGC670101.lag2.1  BIGC670101.lag20 BIGC670101.lag20.1 BIGC670101.lag25 BIGC670101.lag25.1 BIGC670101.lag30 BIGC670101.lag30.1 BIGC670101.lag5 BIGC670101.lag5.1  CHAM810101.lag1 CHAM810101.lag1.1  CHAM810101.lag10 CHAM810101.lag10.1 CHAM810101.lag15 CHAM810101.lag15.1 CHAM810101.lag2 CHAM810101.lag2.1  CHAM810101.lag20 CHAM810101.lag20.1 CHAM810101.lag25 CHAM810101.lag25.1 CHAM810101.lag3 CHAM810101.lag3.1  CHAM810101.lag30 CHAM810101.lag30.1 CHAM810101.lag5 CHAM810101.lag5.1  CHAM820101.lag1 CHAM820101.lag1.1  CHAM820101.lag10 CHAM820101.lag10.1 CHAM820101.lag15 CHAM820101.lag15.1 CHAM820101.lag2 CHAM820101.lag2.1  CHAM820101.lag20 CHAM820101.lag20.1 CHAM820101.lag25 CHAM820101.lag25.1 CHAM820101.lag3 CHAM820101.lag3.1  CHAM820101.lag30 CHAM820101.lag30.1 CHAM820101.lag5 CHAM820101.lag5.1  CHAM820102.lag1 CHAM820102.lag1.1  CHAM820102.lag10 CHAM820102.lag10.1 CHAM820102.lag15 CHAM820102.lag15.1 CHAM820102.lag2 CHAM820102.lag2.1  CHAM820102.lag20 CHAM820102.lag20.1 CHAM820102.lag25 CHAM820102.lag25.1 CHAM820102.lag3 CHAM820102.lag3.1  CHAM820102.lag30 CHAM820102.lag30.1 CHAM820102.lag5 CHAM820102.lag5.1  CHOC760101.lag1 CHOC760101.lag1.1  CHOC760101.lag10 CHOC760101.lag10.1  CHOC760101.lag15 CHOC760101.lag15.1 CHOC760101.lag2 CHOC760101.lag2.1  CHOC760101.lag20 CHOC760101.lag20.1 CHOC760101.lag25 CHOC760101.lag25.1 CHOC760101.lag3 CHOC760101.lag3.1  CHOC760101.lag30 CHOC760101.lag30.1 CHOC760101.lag5 CHOC760101.lag5.1    CIDH920105.lag1 CIDH920105.lag1.1  CIDH920105.lag10 CIDH920105.lag10.1 CIDH920105.lag15 CIDH920105.lag15.1 CIDH920105.lag2 CIDH920105.lag2.1  CIDH920105.lag20 CIDH920105.lag20.1 CIDH920105.lag25 CIDH920105.lag25.1 CIDH920105.lag3 CIDH920105.lag3.1  CIDH920105.lag30 CIDH920105.lag30.1 CIDH920105.lag5 CIDH920105.lag5.1  DAYM780201.lag1 DAYM780201.lag1.1  DAYM780201.lag10 DAYM780201.lag10.1 DAYM780201.lag15 DAYM780201.lag15.1 DAYM780201.lag2 DAYM780201.lag2.1  DAYM780201.lag20 DAYM780201.lag20.1 DAYM780201.lag25 DAYM780201.lag25.1 DAYM780201.lag3 DAYM780201.lag3.1  DAYM780201.lag30 DAYM780201.lag30.1 DAYM780201.lag5 DAYM780201.lag5.1  Xc1.A Xc1.C Xc1.D Xc1.E Xc1.F Xc1.G Xc1.H Xc1.I Xc1.K Xc1.L Xc1.M Xc1.N Xc1.P Xc1.Q Xc1.R Xc1.S Xc1.T Xc1.V Xc1.W Xc1.Y Xc2.lambda.1 Xc2.lambda.10 Xc2.lambda.15 Xc2.lambda.2 Xc2.lambda.20 Xc2.lambda.25 Xc2.lambda.3 Xc2.lambda.30  prop1.Tr1221	prop1.Tr1331	prop1.Tr2332	prop2.Tr1221	prop2.Tr1331	prop2.Tr2332	prop3.Tr1221	prop3.Tr1331	prop3.Tr2332	prop4.Tr1221	prop4.Tr1331	prop4.Tr2332	prop5.Tr1221	prop5.Tr1331	prop5.Tr2332	prop6.Tr1221	prop6.Tr1331	prop6.Tr2332	prop7.Tr1221	prop7.Tr1331	prop7.Tr2332 CHAM820101.lag1 CHAM820101.lag1.1);
+push @features, qw( BHAR880101.lag1 BHAR880101.lag1.1  BHAR880101.lag10 BHAR880101.lag10.1 BHAR880101.lag15 BHAR880101.lag15.1 BHAR880101.lag2 BHAR880101.lag2.1  BHAR880101.lag20 BHAR880101.lag20.1 BHAR880101.lag25 BHAR880101.lag25.1 BHAR880101.lag30 BHAR880101.lag30.1 BHAR880101.lag5 BHAR880101.lag5.1  BIGC670101.lag1 BIGC670101.lag1.1  BIGC670101.lag10 BIGC670101.lag10.1 BIGC670101.lag15 BIGC670101.lag15.1 BIGC670101.lag2 BIGC670101.lag2.1  BIGC670101.lag20 BIGC670101.lag20.1 BIGC670101.lag25 BIGC670101.lag25.1 BIGC670101.lag30 BIGC670101.lag30.1 BIGC670101.lag5 BIGC670101.lag5.1  CHAM810101.lag1 CHAM810101.lag1.1  CHAM810101.lag10 CHAM810101.lag10.1 CHAM810101.lag15 CHAM810101.lag15.1 CHAM810101.lag2 CHAM810101.lag2.1  CHAM810101.lag20 CHAM810101.lag20.1 CHAM810101.lag25 CHAM810101.lag25.1 CHAM810101.lag3 CHAM810101.lag3.1  CHAM810101.lag30 CHAM810101.lag30.1 CHAM810101.lag5 CHAM810101.lag5.1  CHAM820101.lag1 CHAM820101.lag1.1  CHAM820101.lag10 CHAM820101.lag10.1 CHAM820101.lag15 CHAM820101.lag15.1 CHAM820101.lag2 CHAM820101.lag2.1  CHAM820101.lag20 CHAM820101.lag20.1 CHAM820101.lag25 CHAM820101.lag25.1 CHAM820101.lag3 CHAM820101.lag3.1  CHAM820101.lag30 CHAM820101.lag30.1 CHAM820101.lag5 CHAM820101.lag5.1  CHAM820102.lag1 CHAM820102.lag1.1  CHAM820102.lag10 CHAM820102.lag10.1 CHAM820102.lag15 CHAM820102.lag15.1 CHAM820102.lag2 CHAM820102.lag2.1  CHAM820102.lag20 CHAM820102.lag20.1 CHAM820102.lag25 CHAM820102.lag25.1 CHAM820102.lag3 CHAM820102.lag3.1  CHAM820102.lag30 CHAM820102.lag30.1 CHAM820102.lag5 CHAM820102.lag5.1  CHOC760101.lag1 CHOC760101.lag1.1  CHOC760101.lag10 CHOC760101.lag10.1  CHOC760101.lag15 CHOC760101.lag15.1 CHOC760101.lag2 CHOC760101.lag2.1  CHOC760101.lag20 CHOC760101.lag20.1 CHOC760101.lag25 CHOC760101.lag25.1 CHOC760101.lag3 CHOC760101.lag3.1  CHOC760101.lag30 CHOC760101.lag30.1 CHOC760101.lag5 CHOC760101.lag5.1    CIDH920105.lag1 CIDH920105.lag1.1  CIDH920105.lag10 CIDH920105.lag10.1 CIDH920105.lag15 CIDH920105.lag15.1 CIDH920105.lag2 CIDH920105.lag2.1  CIDH920105.lag20 CIDH920105.lag20.1 CIDH920105.lag25 CIDH920105.lag25.1 CIDH920105.lag3 CIDH920105.lag3.1  CIDH920105.lag30 CIDH920105.lag30.1 CIDH920105.lag5 CIDH920105.lag5.1  DAYM780201.lag1 DAYM780201.lag1.1  DAYM780201.lag10 DAYM780201.lag10.1 DAYM780201.lag15 DAYM780201.lag15.1 DAYM780201.lag2 DAYM780201.lag2.1  DAYM780201.lag20 DAYM780201.lag20.1 DAYM780201.lag25 DAYM780201.lag25.1 DAYM780201.lag3 DAYM780201.lag3.1  DAYM780201.lag30 DAYM780201.lag30.1 DAYM780201.lag5 DAYM780201.lag5.1  Xc1.A Xc1.C Xc1.D Xc1.E Xc1.F Xc1.G Xc1.H Xc1.I Xc1.K Xc1.L Xc1.M Xc1.N Xc1.P Xc1.Q Xc1.R Xc1.S Xc1.T Xc1.V Xc1.W Xc1.Y Xc2.lambda.1 Xc2.lambda.10 Xc2.lambda.15 Xc2.lambda.2 Xc2.lambda.20 Xc2.lambda.25 Xc2.lambda.3 Xc2.lambda.30  prop1.Tr1221	prop1.Tr1331	prop1.Tr2332	prop2.Tr1221	prop2.Tr1331	prop2.Tr2332	prop3.Tr1221	prop3.Tr1331	prop3.Tr2332	prop4.Tr1221	prop4.Tr1331	prop4.Tr2332	prop5.Tr1221	prop5.Tr1331	prop5.Tr2332	prop6.Tr1221	prop6.Tr1331	prop6.Tr2332	prop7.Tr1221	prop7.Tr1331	prop7.Tr2332 CHAM820101.lag1 CHAM820101.lag1.1 ) ;
 
 my $aminoacids = "ARNDCEQGHILKMFPSTWYV";
 
@@ -109,26 +108,26 @@ my %loc = ('S' => 'NonTM', 'O' => 'NonTM', 'I' => 'NonTM', 'M' => 'TM', 'L' => '
 
 my @groups = ('pos', 'neg', 'noCharge', 'charge', 'aromatic', 'alifatic', 'sulfur', 'hydroxil', 'polar', 'nonpolar');
 my %aagroups = (
-"A" => ['noCharge', 'alifatic', 'nonpolar'], 
-"R" => ['pos', 'charge', 'polar'], 
-"N" => ['noCharge', 'polar'], 
-"D" => ['neg', 'charge', 'polar'], 
-"C" => ['noCharge', 'sulfur', 'nonpolar'], 
-"E" => ['neg', 'charge', 'polar'], 
-"Q" => ['noCharge', 'polar'], 
-"G" => ['alifatic', 'noCharge', 'nonpolar'], 
-"H" => ['pos', 'charge', 'polar'], 
-"I" => ['alifatic', 'noCharge', 'nonpolar'], 
-"L" => ['alifatic', 'noCharge', 'nonpolar'], 
-"K" => ['pos', 'charge', 'polar'], 
-"M" => ['noCharge', 'sulfur', 'nonpolar'], 
-"F" => ['aromatic', 'nonpolar', 'noCharge'], 
-"P" => ['noCharge', 'nonpolar'], 
-"S" => ['noCharge', 'hydroxil', 'polar'], 
-"T" => ['noCharge', 'hydroxil', 'polar'], 
-"W" => ['aromatic', 'nonpolar', 'noCharge'], 
-"Y" => ['aromatic', 'polar', 'noCharge'], 
-"V" => ['alifatic', 'noCharge', 'nonpolar'], 
+"A" => ['noCharge', 'alifatic', 'nonpolar'],
+"R" => ['pos', 'charge', 'polar'],
+"N" => ['noCharge', 'polar'],
+"D" => ['neg', 'charge', 'polar'],
+"C" => ['noCharge', 'sulfur', 'nonpolar'],
+"E" => ['neg', 'charge', 'polar'],
+"Q" => ['noCharge', 'polar'],
+"G" => ['alifatic', 'noCharge', 'nonpolar'],
+"H" => ['pos', 'charge', 'polar'],
+"I" => ['alifatic', 'noCharge', 'nonpolar'],
+"L" => ['alifatic', 'noCharge', 'nonpolar'],
+"K" => ['pos', 'charge', 'polar'],
+"M" => ['noCharge', 'sulfur', 'nonpolar'],
+"F" => ['aromatic', 'nonpolar', 'noCharge'],
+"P" => ['noCharge', 'nonpolar'],
+"S" => ['noCharge', 'hydroxil', 'polar'],
+"T" => ['noCharge', 'hydroxil', 'polar'],
+"W" => ['aromatic', 'nonpolar', 'noCharge'],
+"Y" => ['aromatic', 'polar', 'noCharge'],
+"V" => ['alifatic', 'noCharge', 'nonpolar'],
 );
 
 my %rsa;
@@ -139,18 +138,18 @@ my ($seq, $top, $id) = ("", "", "");
 # Get id of sequence
 if ( defined($opt_s )){
 	header();
-	
+
 	open FILE, "<", $opt_s or die "Could not open $opt_s: $! \n";
 	while (my $line = <FILE>){
 		chomp $line ;
-		
-		($id, $top, $seq) = split " ", $line ;
-		
+
+		($id, $seq, $top) = split " ", $line ;
+
 		if(!defined($seq)){
 			print STDERR "$id\tNot transmembrane protein. Line $. left out.\n";
 			next;
 		}
-		
+
 		if (calculate() == 1){
 			printResults();
 		}
@@ -162,12 +161,12 @@ if ( defined($opt_s )){
 elsif( defined($opt_i) ) {
 	null_features();
 	my ($file) = $opt_i;
-	$. = 1;	
+	$. = 1;
 	($id, $top, $seq) = cctop ($file);
 	if ($id eq "nontmp"){
 		die "$id\tNot transmembrane protein. File left out.\n";
 	}
-	
+
 	if (calculate() == 1){
 		header();
 		printResults();
@@ -178,14 +177,14 @@ elsif( defined($opt_d) ){
 	header();
 	foreach my $file (@dir){
 		null_features();
-		$. = 1;	
+		$. = 1;
 		($id, $top, $seq) = cctop ($file);
-		
+
 		if ($top eq "nontmp"){
 			print STDERR "$id\tNot transmembrane protein. XML left out.\n";
 			next;
 		}
-		
+
 		if (calculate() == 1){
 			printResults();
 		}
@@ -248,7 +247,7 @@ sub calculate{
 		print STDERR $. ," \t $id: There was some problems with using protparam module. Line or file is left out.\n" ;
 		return 0;
 	}
-	
+
 	return 1;
 }
 
@@ -273,7 +272,7 @@ sub openXML{
 	my $parser = XML::LibXML->new();
 	my $tree = $parser->parse_file($file) or die "Could not parse xml: $!";
 	my $root = $tree->getDocumentElement;
-	
+
 	return $root;
 }
 
@@ -296,9 +295,9 @@ sub obScore{
 	die "need to implement alternative lookup method\n" if (($$irregX) or ($$irregY)); # current lookup only works for table with regular values of X and Y
 	my ($xu_re, $yu_re, $xl_re, $yl_re) = $pi->assign_matrixBound($gravy, $xint, $yint);
 	my $ob_score = $scor_href->OB_out_nomwt($xu_re, $yu_re, $xl_re, $yl_re, $vars, $len, $pi, $gravy);
-	
+
 	$features{'OB'} = defined($ob_score)? sprintf "%.4f", $ob_score : "NA";
-	return 1;	
+	return 1;
 }
 
 #read CCTOP file to topology string
@@ -306,10 +305,10 @@ sub cctop{
 	my ($file) = @_;
 	my $root = openXML ("$file");
 	my $id = $root -> findvalue('@id');
-	
+
 	my $tm = $root -> findvalue("\@transmembrane");
 	my ($top, $seq) = ("", "");
-	
+
 	if ($tm eq "yes"){
 		my $TM = $root -> findvalue("//\@numTM");
 		$features{'numTM'} = $TM;
@@ -329,7 +328,7 @@ sub cctop{
 	else {
 		return ($id, "nontmp");
 	}
-	
+
 	return ($id, $top, $seq);
 }
 
@@ -341,7 +340,7 @@ sub sumLong{
 	return length join "", @_;
 }
 
-sub log10 {
+sub log10{
  my $n = shift;
  return sprintf "%.4f", log($n)/log(10);
 }
@@ -349,9 +348,9 @@ sub log10 {
 
 sub length_regions{
 	$features{'length'} = length $seq;
-	
+
 	my @TMs = ($top =~ m/(L+|M+)/g);
-	
+
 	my @nonTMs;
 	if ($top =~ m/I/){
 		@nonTMs = ($top =~ m/(I+|O+)/g);
@@ -359,18 +358,18 @@ sub length_regions{
 	elsif ($top =~ m/1/){
 		@nonTMs = ($top =~ m/(1+|2+)/g);
 	}
-	
+
 	$features{'numTM'}  = scalar @TMs;
-	
+
 	$features{'lengthTM'} = sumLong (@TMs);
 	$features{'lengthNonTM'} = sumLong (@nonTMs);
 	$features{'TMratio'} = $features{'lengthTM'}/$features{'lengthNonTM'};
-	
+
 	$features{'longestTM'} = longest (@TMs);
 	$features{'longestNonTM'} = longest (@nonTMs);
 
 	$features{'fractionTM'} = $features{'lengthTM'}/$features{'length'};
-	
+
 	$features{'signal'} = $top =~ m/S/g ? 1 : 0;
 	$features{'avgTM'} = $features{'lengthTM'}/$features{'numTM'};
 
@@ -391,7 +390,7 @@ sub fromR{
 	      q`out <- c(as.list(moreau), as.list(moran), as.list(paac), as.list(trans))`,
 	      q`write.table(t(as.data.frame(out)), file='', sep="\t", quote=FALSE)`
 	   );
-	
+
 	chomp(@Rfeatures = split "\n", $Rfeatures[0]);
 
 	foreach my $feature (@Rfeatures){
@@ -399,8 +398,8 @@ sub fromR{
 		my ($key, $value) = split "\t", $feature;
 		$features{$key} = $value if exists $features{$key};
 	}
-	
-	
+
+
 	return 1;
 }
 
@@ -410,11 +409,11 @@ sub aminoacids{
 	for (my $i = 0; $i< $features{'length'}; $i++ ){
 		my $a = substr ($seq, $i, 1);
 		my $t = $loc{substr ($top, $i, 1)} or die "$top\t$i\n";
-		
+
 		#Count in sequence and regions
 		$aas{$a}++;
 		$aas{"$t-$a"}++;
-		
+
 		#Aminoacid groups
 		foreach my $g (@{$aagroups{$a}}){
 			$aas{$g}++;
@@ -426,7 +425,7 @@ sub aminoacids{
 		$features{"TM-${key}"} = $aas{"TM-${key}"}/$features{'lengthTM'} if exists $aas{"TM-${key}"};
 		$features{"NonTM-${key}"} = $aas{"NonTM-${key}"}/$features{'lengthNonTM'} if exists $aas{"NonTM-${key}"};
 	}
-	
+
         foreach my $key (keys %aas){
 		if ($key =~ m/-/g){
 		        my ($side, $group) = split '-', $key;
@@ -453,13 +452,13 @@ sub protparam{
  	foreach my $pos (@-){
 	 	$features{'glyco'}++ if substr($top, $pos, 1) ne "M" and substr($top, $pos, 1) ne "I";
  	}
- 	
+
  	$seq =~ m/(B)/g;
  	$seq =~ m/(G..G)/g;
  	foreach my $pos (@-){
 	 	$features{'GxxG'}++ if substr($top, $pos, 4) =~ m/.*M.*/g;
  	}
- 	
+
  	$seq =~ m/(B)/g;
  	$seq =~ m/(G...G)/g;
  	foreach my $pos (@-){
@@ -482,7 +481,7 @@ sub readRSA{
 	open RSA, '<', $opt_n;
 	while (my $line = <RSA>){
 		chomp $line;
-		
+
 		if ($line =~ m/^[BE] [ACDEFGHIKLMNPQRSTVWY]/g){
 			$line =~ s/ {2,}/ /g;
 			my @array = split ' ', $line;
@@ -499,7 +498,7 @@ sub netsurfp{
 	if (exists $rsa{$id}){
 		my $bur = $rsa{$id}{'bur'};
 		my $sum = $rsa{$id}{'sum'};
-		
+
 		my $exposed = () = $bur =~ m/E/g;
 
 		$features{'avgRSA'} = $sum / $features{'length'};
