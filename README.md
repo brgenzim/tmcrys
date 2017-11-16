@@ -8,7 +8,7 @@ process, as well as a prediction for the whole process.
 ## Citation
 If you find TMCrys useful, please cite:  
 Julia Varga and Gábor E. Tusnády  
-TMCrys:...
+TMCrys: predict propensity of success for membrane protein crystallization
 
 ## Getting Started
 
