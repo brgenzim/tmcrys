@@ -41,16 +41,17 @@ use OB;
 use Statistics::R;
 
 ######### GLOBAL #########
-our($opt_i, $opt_s, $opt_n, $opt_h, $opt_f, $opt_d);
-getopts('i:s:n:hfd:');
+our($opt_i, $opt_s, $opt_n, $opt_h, $opt_f, $opt_d, $opt_o);
+getopts('i:s:n:hfd:o:');
 
 my $help =
-"\nUsage: ./sequenceFeatures.pl (-s TABFILE | -i CCTOPFILE) -n DIR [-h] [-f] [-d DIR]
+"\nUsage: ./sequenceFeatures.pl (-s TABFILE | -i CCTOPFILE) -o OUTPUTFILE-n DIR [-h] [-f] [-d DIR]
 
 	  -i CCTOP file with single entry
 	  -d directory with CCTOP files
 	  -s file with 'id seq top'
 	  Either -s or -i or -d required.
+	  -o output file
 
 	  -n netsurf results file (.rsa)
 	  -f print header with feature names
@@ -65,14 +66,23 @@ if ($opt_h){
 	exit;
 }
 if (!($opt_i || $opt_s || $opt_d)){
-	die "\nsequenceFeatures.pl: Please specifiy a input file with -s or -i or -d option!\n$help";
+	print "\nsequenceFeatures.pl: Please specifiy a input file with -s or -i or -d option!\n$help";
+	exit 5;
 }
 if (!defined($opt_n)){
-	die "\nsequenceFeatures.pl: Please specifiy a netsurfp results file directory with -n option!\n$help";
+	print "\nsequenceFeatures.pl: Please specifiy a netsurfp results file directory with -n option!\n$help";
+	exit 5;
 }
 if (!-f $opt_n){
-	die "\nsequenceFeatures.pl: netsurfp directory does not exists. Please specifiy a directory with a correct path!\n$help";
+	print "\nsequenceFeatures.pl: netsurfp directory does not exists. Please specifiy a directory with a correct path!\n$help";
+	exit 5;
 }
+if(!$opt_o){
+	print "\nsequenceFeatures.pl: Please specify output file!\n$help";
+	exit 5;
+}
+open(OUT, ">", $opt_o) if defined $opt_o;
+
 
 #Define features to count and hash for storing
 my %features;
@@ -137,15 +147,14 @@ readRSA();
 my ($seq, $top, $id) = ("", "", "");
 # Get id of sequence
 if ( defined($opt_s )){
-	header();
-
 	open FILE, "<", $opt_s or die "Could not open $opt_s: $! \n";
+	header();
 	while (my $line = <FILE>){
 		chomp $line ;
 
 		($id, $seq, $top) = split " ", $line ;
 
-		if(!defined($seq)){
+		if(!defined($top)){
 			print STDERR "$id\tNot transmembrane protein. Line $. left out.\n";
 			next;
 		}
@@ -160,15 +169,23 @@ if ( defined($opt_s )){
 }
 elsif( defined($opt_i) ) {
 	null_features();
+	header();
 	my ($file) = $opt_i;
 	$. = 1;
 	($id, $top, $seq) = cctop ($file);
-	if ($id eq "nontmp"){
-		die "$id\tNot transmembrane protein. File left out.\n";
+	if ($top eq "nontmp"){
+		print "$id\tNot transmembrane protein. File left out.\n";
+		exit 3;
+	}
+
+	#Just webservice
+	if (exists $ENV{'TOPFILE'}){
+		open TOPFILE, '>', $ENV{'TOPFILE'};
+		print TOPFILE "$ENV{'SEQID'} $seq $top";
+		close TOPFILE;
 	}
 
 	if (calculate() == 1){
-		header();
 		printResults();
 	}
 }
@@ -185,20 +202,22 @@ elsif( defined($opt_d) ){
 			next;
 		}
 
+
 		if (calculate() == 1){
 			printResults();
 		}
 	}
 }
 else{
-	die "Please specifiy a input file with -s or -i option!\n"
+	print "Please specifiy a input file with -s or -i option!\n";
+	exit 2;
 }
 #-----------------------------------------------------
 
 ########## SUBS ##########
 sub header {
 	@features = do { my %seen; grep { !$seen{$_}++ } @features };
-	print "ID\t", join("\t", sort @features), "\n" if ($opt_f);
+	print OUT "ID\t", join("\t", sort @features), "\n" if ($opt_f);
 }
 
 sub calculate{
@@ -209,6 +228,7 @@ sub calculate{
 	}
 	if ($top =~ m/T/g){
 		print STDERR $. ," \t $id: TMCrys cannot handle transit peptides. Line or file is left out.\n" ;
+		exit 7 if (exists $ENV{'TOPFILE'});
 		return 0;
 	}
 	if ($seq =~ m/X/g){
@@ -225,6 +245,7 @@ sub calculate{
 	}
 	if (netsurfp($id) == 0){
 		print STDERR $. ," \t $id: There was some problems with netsurfp results. Line or file is left out.\n" ;
+		exit 6 if (exists $ENV{'TOPFILE'});
 		return 0;
 	}
 	if (aminoacids() == 0){
@@ -242,6 +263,8 @@ sub calculate{
 	}
 	if ($features{'OB'} eq "NA"){
 		print STDERR $. , "\t $id: OB score could not be determined. Please fill by hand from http://www.compbio.dundee.ac.uk/xtal/cgi-bin/input.pl website.\n";
+		exit 4 if (exists $ENV{'TOPFILE'});
+		return 0;
 	}
 	if (fromR($seq) == 0){
 		print STDERR $. ," \t $id: There was some problems with using protparam module. Line or file is left out.\n" ;
@@ -252,11 +275,11 @@ sub calculate{
 }
 
 sub printResults{
-	print "$id";
+	print OUT "$id";
 	foreach my $key (sort keys %features){
-		print "\t$features{$key}";
+		print OUT "\t$features{$key}";
 	}
-	print "\n";
+	print OUT "\n";
 
 	return 1;
 }
@@ -306,11 +329,11 @@ sub cctop{
 	my $root = openXML ("$file");
 	my $id = $root -> findvalue('@id');
 
-	my $tm = $root -> findvalue("\@transmembrane");
+	my $tm = $root -> findvalue('@transmembrane');
 	my ($top, $seq) = ("", "");
 
 	if ($tm eq "yes"){
-		my $TM = $root -> findvalue("//\@numTM");
+		my $TM = $root -> findvalue('//@numTM');
 		$features{'numTM'} = $TM;
 		my $length = $root -> findvalue('Sequence/@length');
 		my @regions = $root -> findnodes("Topology/Region");
@@ -478,7 +501,7 @@ sub null_features{
 }
 
 sub readRSA{
-	open RSA, '<', $opt_n;
+	open RSA, '<', $opt_n or die "Could not open $opt_n: $!\n";
 	while (my $line = <RSA>){
 		chomp $line;
 
@@ -510,3 +533,10 @@ sub netsurfp{
 }
 
 ######## END SUBS ########
+
+######## EXIT STS ########
+# 3 Single protein not TMP
+# 4 OB score problem
+# 5 I/O problem
+# 6 netsurfp problem
+# 7 transit peptides

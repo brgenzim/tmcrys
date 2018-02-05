@@ -37,7 +37,7 @@ Usage: tmcrys (-s <TABFILE> | -d <CCTOPDIR> | -i <CCTOPFILE>) --wd <WDDIR> -n <N
 	-s 		file with 'id seq top'\n
 	Either -s or -i or -d required.\n
 \n
-	
+
 	--wd		working directory
 	-n 		NetSurfP results file (.rsa)\n
 	--name		required for CCTOP directories - name for output files without extensions\n
@@ -85,7 +85,7 @@ do
 	    WDDIR="$2"
 	    shift # past argument
 	    shift # past value
-	    ;;    
+	    ;;
 	    --version)
 	    echo "TMCrys version 0.1"
 	    exit
@@ -113,38 +113,38 @@ if [[ $TEST ]]; then
 	WDDIR="$TMCRYS/test"
 	NETFILE="$TMCRYS/test"
 	SUCCESS=1
-	
+
 	echo "Creating features..."
 	echo "CCTOPDIR"
-	$TMCRYS/tools/sequenceFeatures.pl -d "$WDDIR/cctop" -n "$NETFILE/testdir.rsa" -f > "$WDDIR/testdir.features"
-	
-	
+	$TMCRYS/tools/sequenceFeatures.pl -d "$WDDIR/cctop" -n "$NETFILE/testdir.rsa" -f -o "$WDDIR/testdir.features"
+
+
 	echo -e  "\nSpace delimited file"
-	$TMCRYS/tools/sequenceFeatures.pl -s "$WDDIR/test.txt" -n "$NETFILE/testtxt.rsa" -f > "$WDDIR/testtxt.features"
+	$TMCRYS/tools/sequenceFeatures.pl -s "$WDDIR/test.txt" -n "$NETFILE/testtxt.rsa" -f -o "$WDDIR/testtxt.features"
 
 	echo -e "\nCCTOP XML file"
-	$TMCRYS/tools/sequenceFeatures.pl -i "$WDDIR/O14983.xml" -n "$NETFILE/testxml.rsa" -f > "$WDDIR/testxml.features"
+	$TMCRYS/tools/sequenceFeatures.pl -i "$WDDIR/O14983.xml" -n "$NETFILE/testxml.rsa" -f -o "$WDDIR/testxml.features"
 	echo "P45880 is not transmembrane protein, should be left out twice."
-	
+
 	echo -e "\nPredicting..."
 	Rscript $TMCRYS/tools/prediction.R -i $WDDIR/testdir.features -o $WDDIR/testdir.prediction --verbose
 	Rscript $TMCRYS/tools/prediction.R -i $WDDIR/testtxt.features -o $WDDIR/testtxt.prediction --verbose
 	Rscript $TMCRYS/tools/prediction.R -i $WDDIR/testxml.features -o $WDDIR/testxml.prediction --verbose
 	echo "Prediction done."
-	 
+
 	echo -e "\nComparing results..."
 	if [[ $(cmp --silent $WDDIR/testdir.prediction $WDDIR/testdir.prediction.sample || echo 0) ]]; then
 		echo "Not working with CCTOP directories"
 		SUCCESS=0
 	fi
-	
+
 	if [[ $(cmp --silent $WDDIR/testtxt.prediction $WDDIR/testtxt.prediction.sample || echo 0) ]]; then
 		echo "Not working with space delimited files"
 		SUCCESS=0
 	fi
-	
+
 	if [[ $(cmp --silent $WDDIR/testxml.prediction $WDDIR/testxml.prediction.sample || echo 0) ]]; then
-		echo "Not working with CCTOP files" 
+		echo "Not working with CCTOP files"
 		SUCCESS=0
 	fi
 
@@ -179,19 +179,19 @@ fi
 if [[ "$CCTOPDIR" != "" ]]; then
 	if [[ ! -d "$CCTOPDIR" ]]; then
 		echo "Please specify valid path to directory containing CCTOP XMLs!"
-	else	
+	else
 		echo "Calculating features for CCTOP files in $CCTOPDIR"
-		$TMCRYS/tools/sequenceFeatures.pl -d "$CCTOPDIR" -n "$NETFILE" -f > $WDDIR/$name.features
+		$TMCRYS/tools/sequenceFeatures.pl -d "$CCTOPDIR" -n "$NETFILE" -f -o "$WDDIR/$name.features"
 	fi
 fi
 
-if [[ "$TABFILE" != "" ]]; then 
+if [[ "$TABFILE" != "" ]]; then
 	if [[ ! -f "$TABFILE" ]]; then
 		echo "Please specify valid path to space delimited file: 'id sequence topology'!"
 	else
 		echo "Calculating features for $TABFILE"
 		name=$(basename $TABFILE ".txt")
-		$TMCRYS/tools/sequenceFeatures.pl -s "$TABFILE" -n "$NETFILE" -f > $WDDIR/$name.features
+		$TMCRYS/tools/sequenceFeatures.pl -s "$TABFILE" -n "$NETFILE" -f -o "$WDDIR/$name.features"
 	fi
 fi
 
@@ -202,7 +202,7 @@ if [[ "$CCTOPFILE" != "" ]]; then
 		echo "Calculating features for a CCTOP file"
 		name=$(basename $CCTOPFILE ".xml")
 		echo $name
-		$TMCRYS/tools/sequenceFeatures.pl -i "$CCTOPFILE" -n "$NETFILE" -f > $WDDIR/$name.features
+		$TMCRYS/tools/sequenceFeatures.pl -i "$CCTOPFILE" -n "$NETFILE" -f -o "$WDDIR/$name.features"
 	fi
 fi
 
@@ -211,8 +211,3 @@ echo -e "Features calculated. Prediction..."
 
 Rscript $TMCRYS/tools/prediction.R -i $WDDIR/$name.features -o $WDDIR/$name.prediction --verbose
 echo "Done, results written in $WDDIR/$name.prediction"
-
-
-
-
-
