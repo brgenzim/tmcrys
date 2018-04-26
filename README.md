@@ -7,8 +7,10 @@ process, as well as a prediction for the whole process.
 
 ## Citation
 If you find TMCrys useful, please cite:  
-Julia Varga and Gábor E. Tusnády  
-TMCrys: predict propensity of success for membrane protein crystallization
+Julia K. Varga and Gábor E. Tusnády  
+TMCrys: predict propensity of success for transmembrane protein crystallization
+Bioinformatics (accepted)
+Bioinformatics Advance Access: https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/bty342/4987146
 
 ## Getting Started
 
@@ -93,7 +95,7 @@ Help for every script is available by typing `-h` or `--help` or no arguments wh
 The result file of TMCrys contains propensity of success for every steo (pr1, pr2, p3) and for the whole process (prw) together with the final predictions (pred1, pred2, pred3, predw) according to the thresholds described in the paper.
 
 ## Authors
-Julia Varga  
+Julia K. Varga  
 Gábor E. Tusnády
 
 ## Troubleshooting
