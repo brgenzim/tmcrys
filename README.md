@@ -8,9 +8,9 @@ process, as well as a prediction for the whole process.
 ## Citation
 If you find TMCrys useful, please cite:  
 Julia K. Varga and Gábor E. Tusnády  
-TMCrys: predict propensity of success for transmembrane protein crystallization
-Bioinformatics, bty342
-https://doi.org/10.1093/bioinformatics/bty342
+TMCrys: predict propensity of success for transmembrane protein crystallization  
+Bioinformatics, bty342  
+https://doi.org/10.1093/bioinformatics/bty342  
 
 ## Getting Started
 
