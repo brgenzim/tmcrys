@@ -2,19 +2,19 @@
 # TMCrys
 
 TMCrys was developed to help the target selection of structural genomics projects by providing prediction
-for the propensity of the solubilization, purification and crystallization steps of the crystallization 
+for the propensity of the solubilization, purification and crystallization steps of the crystallization
 process, as well as a prediction for the whole process.
 
 ## Citation
 If you find TMCrys useful, please cite:  
 Julia K. Varga and Gábor E. Tusnády  
 TMCrys: predict propensity of success for transmembrane protein crystallization
-Bioinformatics (accepted)
-Bioinformatics Advance Access: https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/bty342/4987146
+Bioinformatics, bty342
+https://doi.org/10.1093/bioinformatics/bty342
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 Packages and modules, please copy and paste code below to install.  
@@ -22,10 +22,10 @@ TMCrys was developed with R v3.4.1 and Perl v5.18.2. Lower versions may not work
 
 R packages - from R shell
 
-```	
+```
 install.packages("xgboost", repos='http://cran.rstudio.com/')
-install.packages("caret", repos='http://cran.rstudio.com/')	
-install.packages("docopt", repos='http://cran.rstudio.com/')	
+install.packages("caret", repos='http://cran.rstudio.com/')
+install.packages("docopt", repos='http://cran.rstudio.com/')
 install.packages("protr", repos='http://cran.rstudio.com/')
 ```
 
@@ -42,7 +42,7 @@ You may need to add `sudo -i` before the commands.
 
 You will also need a modified version of the OB module (used for OB-score calculation), it is downloaded together with TMCrys to tools directory. Please do not remove it or data (data/zmat.dat) belonging to it.
 
-TMCrys requires an installed copy of BioPerl (http://bioperl.org/INSTALL.html) for running properly. BioPerl could also be installed during the installation of Bio::Tools::Protparam when installer ask about whether to install all modules. 
+TMCrys requires an installed copy of BioPerl (http://bioperl.org/INSTALL.html) for running properly. BioPerl could also be installed during the installation of Bio::Tools::Protparam when installer ask about whether to install all modules.
 
 
 ### Installing
@@ -116,4 +116,3 @@ This project is licensed under the GNU License - see the LICENSE.md file for det
 7. Kuhn,M. et al. (2017) caret: Classification and Regression Training.
 8. Kawashima,S., Ogata,H. and Kanehisa,M. (1999) AAindex: Amino Acid Index Database. Nucleic Acids Res., 27, 368–369.
 9. Yan,Y. (2016) rBayesianOptimization: Bayesian Optimization of Hyperparameters.
-

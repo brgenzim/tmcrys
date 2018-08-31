@@ -7,8 +7,11 @@ use warnings;
 #    Copyright 2017 Julia Varga and Gábor E. Tusnády				#
 #										#
 #    If you use TMCrys, please cite: 						#
-#    Julia Varga and Gábor E. Tusnády TMCRys...					#
-#										#
+#    Julia K. Varga and Gábor E. Tusnády					#
+#    TMCrys: predict propensity of success for transmembrane protein		#
+#    crystallization								#
+#    Bioinformatics, bty342							#
+#    https://doi.org/10.1093/bioinformatics/bty342				#
 #										#
 #    This file is part of TMCrys.						#
 #										#

@@ -6,8 +6,11 @@
 #    Copyright 2017 Julia Varga and Gábor E. Tusnády				#
 #										#
 #    If you use TMCrys, please cite: 						#
-#    Julia Varga and Gábor E. Tusnády TMCRys...					#
-#										#
+#    Julia K. Varga and Gábor E. Tusnády					#
+#    TMCrys: predict propensity of success for transmembrane protein		#
+#    crystallization								#
+#    Bioinformatics, bty342							#
+#    https://doi.org/10.1093/bioinformatics/bty342				#
 #										#
 #    This file is part of TMCrys.						#
 #										#
@@ -43,7 +46,7 @@ Options:
    --version   print version and exit
 
 TMCrys version 1.0
-If you use it, please cite Julia Varga and Gábor E. Tusnády TMCrys... 
+If you use it, please cite Julia Varga and Gábor E. Tusnády TMCrys...
 ' -> doc
 
 opts <- docopt(doc, help = T, version = "TMCrys version 1.0\n")
@@ -90,17 +93,17 @@ for (i in 1:ncol(data1)){
 	if ( grepl("lag", colname)  ||
 		grepl("lambda", colname)
 	) {
-		
+
 		lowerBound <- dev1[colname,"lowerBound"]
 		upperBound <- dev1[colname,"upperBound"]
-		
+
 		if(is.na(lowerBound) || is.na(upperBound) ){
 			next
 		}
-		
+
 		col[col[,1] <= lowerBound | col[,1] >= upperBound,1] <- 1
 		col[col[,1] > lowerBound & col[,1] < upperBound,1] <- 0
-		
+
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
 		dataOut1 <- cbind(dataOut1, newcol)
@@ -126,8 +129,8 @@ for (i in 1:ncol(data1)){
 			 colname == "NonTM.polar" ||
 			 colname == "NonTM.pos" ||
 			 colname == "TM.A" ||
-			 colname == "TM.C" || 
-			 colname == "TM.H" || 
+			 colname == "TM.C" ||
+			 colname == "TM.H" ||
 			 colname == "TM.Q" ||
 			 colname == "TM.W" ||
 			 colname == "TM.pos" ||
@@ -140,13 +143,13 @@ for (i in 1:ncol(data1)){
 			 colname == "lengthNonTM" ||
 			 colname == "longestNonTM" ||
 			 colname == "numTM"
-			 
+
 	) {
 		newcol <- data.frame(log(col[,colname]))
 		colnames(newcol) <- c(colname)
 		dataOut1 <- cbind(dataOut1, newcol)
-	}	
-}	
+	}
+}
 rownames(dataOut1) <- rownames(data1)
 
 #2nd step - purification
@@ -159,19 +162,19 @@ for (i in 1:ncol(data2)){
 		grepl("lambda", colname) ||
 		colname == "NonTM.alifatic" ||
 		colname == "NonTM.charge" ||
-		colname == "NonTM.neg" 
+		colname == "NonTM.neg"
 	) {
-		
+
 		lowerBound <- dev2[colname,"lowerBound"]
 		upperBound <- dev2[colname,"upperBound"]
-		
+
 		if(is.na(lowerBound) || is.na(upperBound) ){
 			next
 		}
-		
+
 		col[col[,1] <= lowerBound | col[,1] >= upperBound, 1] <- 1
 		col[col[,1] > lowerBound & col[,1] < upperBound, 1] <- 0
-		
+
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
 		dataOut2 <- cbind(dataOut2, newcol)
@@ -182,9 +185,9 @@ for (i in 1:ncol(data2)){
 	}	else if ( grepl("Xc1", colname) ||
 			  grepl("prop", colname) ||
 			  colname == "C" ||
-			  colname == "D" || 
-			  colname == "E" || 
-			  colname == "F" || 
+			  colname == "D" ||
+			  colname == "E" ||
+			  colname == "F" ||
 			  colname == "I" ||
 			  colname == "K" ||
 			  colname == "L" ||
@@ -194,7 +197,7 @@ for (i in 1:ncol(data2)){
 			  colname == "Q" ||
 			  colname == "R" ||
 			  colname == "TM.neg" ||
-			  colname == "TM.pos" ||			  
+			  colname == "TM.pos" ||
 			  colname == "TM.A" ||
 			  colname == "TM.C" ||
 			  colname == "TM.D" ||
@@ -244,17 +247,17 @@ for (i in 1:ncol(data3)){
 	colname <- colnames(data3)[i]
 	colnames(col) <- colname
 	if ( grepl("lag", colname)  || colname == "Xc2.lambda.20" || colname == "Xc2.lambda.25" || colname == "Xc2.lambda.30") {
-		
+
 		lowerBound <- dev3[colname,"lowerBound"]
 		upperBound <- dev3[colname,"upperBound"]
-		
+
 		if(is.na(lowerBound) || is.na(upperBound) ){
 			next
 		}
-		
+
 		col[col[,1] <= lowerBound | col[,1] >= upperBound, 1] <- 1
 		col[col[,1] > lowerBound & col[,1] < upperBound, 1] <- 0
-		
+
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
 		dataOut3 <- cbind(dataOut3, newcol)
@@ -266,9 +269,9 @@ for (i in 1:ncol(data3)){
 		newcol <- data.frame(col[,colname])
 		colnames(newcol) <- c(colname)
 		dataOut3 <- cbind(dataOut3, newcol)
-	}	else if (grepl("Xc1", colname) || 
-			 colname == "Y" || 
-			 colname == "aromatic" || 
+	}	else if (grepl("Xc1", colname) ||
+			 colname == "Y" ||
+			 colname == "aromatic" ||
 			 colname == "length" ||
 			 colname == "lengthNonTM" ||
 			 colname == "lengthTM" ||
@@ -316,4 +319,3 @@ if ( !is.null(opts$o) ) {
 if (opts$verbose == T || is.null(opts$o)){
 	print(format(prediction, digits=4), sep = "\t")
 }
-
