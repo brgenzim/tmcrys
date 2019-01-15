@@ -38,7 +38,7 @@ Usage: tmcrys (-s <TABFILE> | -d <CCTOPDIR> | -i <CCTOPFILE>) --wd <WDDIR> -n <N
 	Either -s or -i or -d required.\n
 \n
 
-	--wd		working directory
+	--wd		working directory\n
 	-n 		NetSurfP results file (.rsa)\n
 	--name		required for CCTOP directories - name for output files without extensions\n
 	-h|--help 	print this help and exit\n
